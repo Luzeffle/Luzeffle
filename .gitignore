@@ -1,0 +1,16 @@
+# Dependency directories
+node_modules/
+
+# Build outputs
+dist/
+
+# Agent/IDE configurations
+.agent/
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# Local env files
+.env.local
+.env.*.local

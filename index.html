@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Angelo Lozano — Creative Technologist & UI/UX Designer</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description"
+    content="Portfolio of Angelo Lozano, a Computer Science student specializing in UI/UX Design, Poster Art, and Creative Technology. Blending high-performance algorithms with premium aesthetics.">
+  <meta name="keywords"
+    content="Angelo Lozano, Portfolio, UI/UX Design, Computer Science, Poster Art, Creative Technologist, Awwwards, Web Animation, ASCII Art, Design Portfolio">
+  <meta name="author" content="Angelo Lozano">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+
+  <!-- Custom High-Tech Cursor Follower -->
+  <div id="mouse-follower" class="mouse-follower">
+    <span class="follower-dot"></span>
+    <span class="follower-coord">00, 00</span>
+  </div>
+
+  <!-- Background Grid Coordinates Visual (Awwwards design touch) -->
+  <div id="bg-coordinates" class="bg-coordinates"></div>
+  <div class="background-radial-glow"></div>
+
+  <!-- 1. Fullscreen ASCII Intro Container (aino.agency style) -->
+  <section id="intro-container" class="intro-container">
+
+
+    <!-- Fullscreen Monospace ASCII Pre Text Matrix -->
+    <pre id="ascii-pre" class="ascii-pre"></pre>
+
+    <!-- Collage Animation Container -->
+    <div id="collage-container" class="collage-container hide">
+      <div class="collage-item item-1">
+        <div class="collage-placeholder">
+          <img src="./assets/Christmas-Kids.webp" alt="Archive Project">
+          <span class="collage-label">[01 / ARCHIVE]</span>
+          <div class="collage-crosshair"></div>
+        </div>
+      </div>
+      <div class="collage-item item-2">
+        <div class="collage-placeholder">
+          <img src="./assets/Creep.webp" alt="UI-UX Project">
+          <span class="collage-label">[02 / UI-UX]</span>
+          <div class="collage-crosshair"></div>
+        </div>
+      </div>
+      <div class="collage-item item-3">
+        <div class="collage-placeholder">
+          <img src="./assets/Exit-Music.webp" alt="Brand Project">
+          <span class="collage-label">[03 / BRAND]</span>
+          <div class="collage-crosshair"></div>
+        </div>
+      </div>
+      <div class="collage-item item-4">
+        <div class="collage-placeholder">
+          <img src="./assets/Let-Down.webp" alt="Art Project">
+          <span class="collage-label">[04 / ART]</span>
+          <div class="collage-crosshair"></div>
+        </div>
+      </div>
+      <div class="collage-item item-5">
+        <div class="collage-placeholder">
+          <img src="./assets/i_can_t_handle_change.webp" alt="Developer Project">
+          <span class="collage-label">[05 / DEV]</span>
+          <div class="collage-crosshair"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DOM-based Logo Transition Container -->
+    <div id="logo-animation-container" class="logo-animation-container hide">
+      <span class="logo-bracket bracket-left">[</span>
+      <div class="logo-text-wrapper">
+        <span class="logo-char letter-a">A</span>
+        <span class="logo-collapse-wrapper mask-left"><span class="logo-char sliding-text">ngelo</span></span>
+        <span class="logo-collapse-wrapper space-mask"><span class="logo-char sliding-text">&nbsp;</span></span>
+        <span class="logo-char letter-l">L</span>
+        <span class="logo-collapse-wrapper mask-right"><span class="logo-char sliding-text">ozano</span></span>
+      </div>
+      <span class="logo-bracket bracket-right">]</span>
+    </div>
+  </section>
+
+  <!-- 2. Main Portfolio Workspace (juliakrantz.com periodic grid) -->
+  <main id="portfolio-container" class="portfolio-container hide">
+
+    <!-- Site Header -->
+    <header class="site-header">
+      <div class="brand">
+        <span class="logo-symbol">[AL]</span>
+        <div class="brand-text">
+          <h1 class="brand-title">ANGELO LOZANO</h1>
+          <span class="brand-subtitle">CREATIVE PORTFOLIO</span>
+        </div>
+      </div>
+
+      <!-- Nav Clocks & Metadata -->
+      <div class="header-metadata">
+        <div class="meta-item hide-mobile">
+          <span class="meta-label">DISCIPLINE</span>
+          <span class="meta-value">COMP. SCIENCE / UI/UX</span>
+        </div>
+        <div class="meta-item hide-mobile">
+          <span class="meta-label">FOCUS</span>
+          <span class="meta-value">CREATIVE SYSTEMS</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">LOCAL TIME</span>
+          <span id="local-clock" class="meta-value">00:00:00 UTC+8</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Periodic Table Wrapper -->
+    <section class="grid-section">
+      <div class="grid-header">
+        <div class="grid-legend">
+          <span class="legend-item"><span class="legend-color tech"></span>TECHNOLOGY</span>
+          <span class="legend-item"><span class="legend-color design"></span>DESIGN SYSTEM</span>
+          <span class="legend-item"><span class="legend-color art"></span>POSTER ART</span>
+          <span class="legend-item"><span class="legend-color project"></span>PROJECT MODULES</span>
+        </div>
+        <div class="grid-coordinate-indicator">COORD: <span id="hovered-coords">X0, Y0</span></div>
+      </div>
+
+      <!-- The dynamic CSS Grid Periodic Table -->
+      <div id="periodic-grid" class="periodic-grid"></div>
+    </section>
+
+    <!-- Footer branding -->
+    <footer class="site-footer">
+      <div class="footer-left">
+        <span>©2026 ANGELO LOZANO</span>
+        <span class="divider">/</span>
+        <span>UI/UX DESIGN & POSTER ART SPECIALIST</span>
+      </div>
+      <div class="footer-right">
+        <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="footer-link">GITHUB</a>
+        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="footer-link">LINKEDIN</a>
+        <a href="https://awwwards.com" target="_blank" rel="noopener noreferrer" class="footer-link">AWWWARDS</a>
+      </div>
+    </footer>
+  </main>
+
+  <!-- 3. Dynamic Editorial Case Study Panel (creativecue.co / simonholm.studio style) -->
+  <aside id="project-panel" class="project-panel">
+    <div class="panel-scrollbar-track"></div>
+
+    <!-- Floating Header -->
+    <div class="panel-header">
+      <button id="btn-close-panel" class="btn-close-panel">
+        <span class="close-text">BACK TO GRID</span>
+        <span class="close-icon">✕</span>
+      </button>
+      <div id="panel-logo" class="panel-logo">UX-05 / BRD</div>
+    </div>
+
+    <!-- Panel Content -->
+    <div class="panel-content-wrapper">
+
+      <!-- Split Editorial Header -->
+      <div class="panel-hero">
+        <div class="hero-left">
+          <span id="panel-project-number" class="hero-project-number">05</span>
+          <h2 id="panel-project-title" class="hero-title">BIRDIE REDESIGN</h2>
+          <p id="panel-project-subtitle" class="hero-subtitle">Visual Identity & UI Redesign</p>
+        </div>
+        <div class="hero-right">
+          <div class="metadata-block">
+            <span class="meta-label">CLIENT / CONCEPT</span>
+            <span id="panel-meta-concept" class="meta-value">Fresh Air Monitor Studio</span>
+          </div>
+          <div class="metadata-block">
+            <span class="meta-label">ROLE</span>
+            <span id="panel-meta-role" class="meta-value">UI/UX & Brand Director</span>
+          </div>
+          <div class="metadata-block">
+            <span class="meta-label">TECHNOLOGIES</span>
+            <span id="panel-meta-tech" class="meta-value">Figma, Typography, SVG Motion</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fluid Image Reveal (creativecue.co image reveal system) -->
+      <div id="panel-image-container" class="panel-image-container">
+        <div class="image-reveal-mask">
+          <img id="panel-project-image" src="" alt="Project Presentation" class="reveal-image">
+        </div>
+        <div class="image-overlay-glow"></div>
+      </div>
+
+      <!-- Project Core Details -->
+      <div class="panel-narrative">
+        <div class="narrative-column">
+          <h3 class="narrative-heading">THE BRIEF & MISSION</h3>
+          <p id="panel-project-description" class="narrative-body">
+            Birdie is a visual Fresh Air Monitor designed to improve indoor climates. In this visual redesign, I
+            spearheaded a brand identity that merges high-tech environmental monitoring with decorative Danish product
+            design. Utilizing custom bird-behavior motion typography and a vibrant dandelion yellow accent, I
+            established a warm and highly interactive digital experience.
+          </p>
+        </div>
+        <div class="narrative-column">
+          <h3 class="narrative-heading">CREATIVE SYNTHESIS</h3>
+          <p id="panel-project-synthesis" class="narrative-body">
+            By analyzing product physical blueprints and user interaction paradigms, we structured an algorithmic
+            interface model. The software's canvas elements act in direct harmony with user breathing patterns,
+            responding with smooth micro-animations. It highlights how user interface and computer science theory merge
+            seamlessly in human-centered product development.
+          </p>
+        </div>
+      </div>
+
+      <!-- Live Computational Art / Form Container (Rendered dynamically if Contact or Canvas Engine) -->
+      <div id="custom-panel-content" class="custom-panel-content"></div>
+
+      <!-- Bottom Next Project Trigger -->
+      <div class="panel-footer-action">
+        <button id="btn-panel-next" class="btn-creative btn-next-proj">
+          <span class="btn-text">NEXT MODULE</span>
+          <span class="btn-arrow">→</span>
+        </button>
+      </div>
+
+    </div>
+  </aside>
+
+  <!-- Entry Script -->
+  <script type="module" src="./main.js"></script>
+</body>
+
+</html>
