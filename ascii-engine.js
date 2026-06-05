@@ -78,26 +78,6 @@ export class AsciiEngine {
       introPrompt: document.getElementById("intro-prompt")
     };
 
-    // ASCII Font representation for the word "ANGELO" - Premium architectural typography (7 rows x 78 cols)
-    this.angeloFontDesktop = [
-      "   ▄██████▄   ███    ███    ▄██████▄   ██████████   ███          ▄██████▄  ",
-      "  ███    ███  ████   ███   ███    ███  ███          ███         ███    ███ ",
-      "  ███    ███  █████  ███   ███         ███          ███         ███    ███ ",
-      "  ██████████  ██████ ███   ███  █████  ████████     ███         ███    ███ ",
-      "  ███    ███  ███ ██████   ███    ███  ███          ███         ███    ███ ",
-      "  ███    ███  ███  █████   ███    ███  ███          ███         ███    ███ ",
-      "  ███    ███  ███   ████    ▀████████▀ ██████████   ██████████   ▀██████▀  "
-    ];
-
-    // ASCII Font representation for the word "ANGELO" - Mobile version
-    this.angeloFontMobile = [
-      "  @    @  @  @@@@@  @@@@@ @     @@@  ",
-      " @ @   @@ @ @     @ @     @    @   @ ",
-      "@@@@@  @ @@ @  @@@@ @@@@  @    @   @ ",
-      "@   @  @  @ @     @ @     @    @   @ ",
-      "@   @  @  @  @@@@@  @@@@@ @@@@@ @@@  "
-    ];
-
     this.init();
   }
 
