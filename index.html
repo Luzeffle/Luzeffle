@@ -170,31 +170,37 @@
           </div>
           <div class="folder-body">
             <div class="folder-content-split">
-              <!-- Left: Content Info -->
               <div class="folder-left">
-                <span class="group-num">01 / LOGISTICS</span>
-                <h3 class="folder-headline">SYSTEM ARCHITECTURES</h3>
-                <p class="folder-bio">Designing responsive data-heavy administration environments to optimize physical and medical logistics workflows.</p>
-                <ul class="folder-list">
-                  <li>RNM Hardware: Complete point-of-sale, audit trailing, and live metrics dashboard visualization.</li>
-                  <li>Eri Pharmacy: Frosted glass-morphic inventory tracking interface with deep data column tables.</li>
-                </ul>
-                <a href="#" class="folder-button" onclick="event.preventDefault();">
-                  <span>VIEW SYSTEM SCHEMATICS</span>
-                  <span class="btn-arrow">→</span>
-                </a>
+                <div class="folder-top-group">
+                  <h3 class="folder-headline">MANAGEMENT SYSTEMS</h3>
+                  <p class="folder-bio">High-fidelity administrative environments engineered to optimize enterprise
+                    resource logistics and data workflows.</p>
+                </div>
+                <div class="folder-bottom-list">
+                  <div class="list-row">SYSTEM ARCHITECTURES</div>
+                  <div class="list-row">POS & METRICS DASHBOARDS</div>
+                  <div class="list-row">DATA GRID ENGINES</div>
+                </div>
               </div>
 
               <!-- Right: Media Viewport -->
               <div class="folder-right">
                 <div class="folder-media-viewport">
-                  <div class="showcase-placeholder">
-                    <span class="placeholder-tag">[01_A // RNM_HARDWARE_DASHBOARD.WEBP]</span>
-                    <div class="placeholder-crosshair"></div>
+                  <div class="showcase-placeholder" onclick="this.classList.add('active'); event.stopPropagation();">
+                    <img src="assets/dashboard.webp" alt="RNM Hardware Dashboard" class="showcase-img">
+                    <span class="placeholder-tag">RNM HARDWARE</span>
+                    <div class="hover-modal"
+                      onclick="this.parentElement.classList.remove('active'); event.stopPropagation();">
+                      <img src="assets/dashboard.webp" alt="RNM Hardware Dashboard">
+                    </div>
                   </div>
-                  <div class="showcase-placeholder">
-                    <span class="placeholder-tag">[01_B // ERI_PHARMACY_INTERFACE.WEBP]</span>
-                    <div class="placeholder-crosshair"></div>
+                  <div class="showcase-placeholder" onclick="this.classList.add('active'); event.stopPropagation();">
+                    <img src="assets/pharmacy.webp" alt="Eri Pharmacy Interface" class="showcase-img">
+                    <span class="placeholder-tag">ERI PHARMACY</span>
+                    <div class="hover-modal"
+                      onclick="this.parentElement.classList.remove('active'); event.stopPropagation();">
+                      <img src="assets/pharmacy.webp" alt="Eri Pharmacy Interface">
+                    </div>
                   </div>
                 </div>
               </div>
@@ -211,31 +217,37 @@
           </div>
           <div class="folder-body">
             <div class="folder-content-split">
-              <!-- Left: Content Info -->
               <div class="folder-left">
-                <span class="group-num">02 / UX & DESIGN</span>
-                <h3 class="folder-headline">HUMAN EXPERIENCE</h3>
-                <p class="folder-bio">Crafting friendly layouts and modular dashboard configurations tailored for direct consumer utility, commerce, and self-care.</p>
-                <ul class="folder-list">
-                  <li>Sarap Packs: High-impact food logistics landing page built with friendly, clean 3D character illustrations.</li>
-                  <li>Mindfulness Dashboard: A balanced wellness planner featuring audio integration metrics and behavioral analytics tracking.</li>
-                </ul>
-                <a href="#" class="folder-button" onclick="event.preventDefault();">
-                  <span>EXPLORE INTERACTION DECK</span>
-                  <span class="btn-arrow">→</span>
-                </a>
+                <div class="folder-top-group">
+                  <h3 class="folder-headline">CONSUMER & WELLNESS</h3>
+                  <p class="folder-bio">Clean layout configurations and user-centric interfaces tailored for direct
+                    consumer utility, commerce, and digital self-care.</p>
+                </div>
+                <div class="folder-bottom-list">
+                  <div class="list-row">HUMAN EXPERIENCE SHAPING</div>
+                  <div class="list-row">AUDIO METRIC INTEGRATION</div>
+                  <div class="list-row">MINDFULNESS DASHBOARDS</div>
+                </div>
               </div>
 
               <!-- Right: Media Viewport -->
               <div class="folder-right">
                 <div class="folder-media-viewport">
-                  <div class="showcase-placeholder">
-                    <span class="placeholder-tag">[02_A // SARAP_PACKS_HOMEPAGE.WEBP]</span>
-                    <div class="placeholder-crosshair"></div>
+                  <div class="showcase-placeholder" onclick="this.classList.add('active'); event.stopPropagation();">
+                    <img src="assets/homepage.webp" alt="Sarap Packs Homepage" class="showcase-img">
+                    <span class="placeholder-tag">SARAP PACKS</span>
+                    <div class="hover-modal"
+                      onclick="this.parentElement.classList.remove('active'); event.stopPropagation();">
+                      <img src="assets/homepage.webp" alt="Sarap Packs Homepage">
+                    </div>
                   </div>
-                  <div class="showcase-placeholder">
-                    <span class="placeholder-tag">[02_B // MINDFULNESS_AUDIO_DASHBOARD.WEBP]</span>
-                    <div class="placeholder-crosshair"></div>
+                  <div class="showcase-placeholder" onclick="this.classList.add('active'); event.stopPropagation();">
+                    <img src="assets/meditation.webp" alt="Mindfulness Dashboard" class="showcase-img">
+                    <span class="placeholder-tag">MINDFULNESS</span>
+                    <div class="hover-modal"
+                      onclick="this.parentElement.classList.remove('active'); event.stopPropagation();">
+                      <img src="assets/meditation.webp" alt="Mindfulness Dashboard">
+                    </div>
                   </div>
                 </div>
               </div>
@@ -252,37 +264,100 @@
           </div>
           <div class="folder-body">
             <div class="folder-content-split">
-              <!-- Left: Content Info -->
               <div class="folder-left">
-                <span class="group-num">03 / AI & COMPUTATION</span>
-                <h3 class="folder-headline">CREATIVE REINFORCEMENT</h3>
-                <p class="folder-bio">Blending legacy pixel aesthetics with computer science simulation algorithms.</p>
-                <ul class="folder-list">
-                  <li>Snake AI: Retro 8-bit user interface dashboard built to monitor and speed-control neural network simulation training sessions.</li>
-                </ul>
-                <a href="#" class="folder-button" onclick="event.preventDefault();">
-                  <span>ENGAGE RUNTIME SIMULATION</span>
-                  <span class="btn-arrow">→</span>
-                </a>
+                <div class="folder-top-group">
+                  <h3 class="folder-headline">SIMULATIONS & AI</h3>
+                  <p class="folder-bio">Creative computing environments blending responsive layout structures with
+                    neural network reinforcement learning algorithms.</p>
+                </div>
+                <div class="folder-bottom-list">
+                  <div class="list-row">COMPUTATION INTERFACES</div>
+                  <div class="list-row">RETRO PIXEL SYSTEMS</div>
+                  <div class="list-row">REINFORCEMENT SIMULATIONS</div>
+                </div>
               </div>
 
               <!-- Right: Media Viewport -->
               <div class="folder-right">
                 <div class="folder-media-viewport">
-                  <div class="showcase-placeholder">
-                    <span class="placeholder-tag">[03_A // SNAKE_AI_SIMULATION.WEBP]</span>
-                    <div class="placeholder-crosshair"></div>
+                  <div class="showcase-placeholder" onclick="this.classList.add('active'); event.stopPropagation();">
+                    <img src="assets/game_simulation.webp" alt="Snake AI Simulation" class="showcase-img">
+                    <span class="placeholder-tag">SNAKE AI</span>
+                    <div class="hover-modal"
+                      onclick="this.parentElement.classList.remove('active'); event.stopPropagation();">
+                      <img src="assets/game_simulation.webp" alt="Snake AI Simulation">
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
+        <div class="works-scroll-spacer"></div>
+
+      </div>
+    </section>
+
+
+    <section id="posters-showcase" class="poster-timeline-section">
+      <div class="poster-sticky-viewport">
+
+        <!-- 1. The Dynamic Structural Title Component -->
+        <h2 class="poster-section-title">
+          EXPERIMENTAL GRAPHICS
+        </h2>
+
+        <!-- 2. The 3D Matrix Portal -->
+        <div class="poster-matrix-portal">
+
+          <!-- The Cover Card -->
+          <div class="poster-cover-card">
+            <div class="cover-design-inner">
+            </div>
+          </div>
+
+          <!-- 9 Individual Stylized Card Webp Nodes -->
+          <div class="poster-cluster-anchor">
+            <div class="poster-card card-1">
+              <div class="card-inner"><img src="./assets/Christmas-Kids.webp" alt="Christmas Kids"></div>
+            </div>
+            <div class="poster-card card-2">
+              <div class="card-inner"><img src="./assets/Creep.webp" alt="Creep"></div>
+            </div>
+            <div class="poster-card card-3">
+              <div class="card-inner"><img src="./assets/Exit-Music.webp" alt="Exit Music"></div>
+            </div>
+            <div class="poster-card card-4">
+              <div class="card-inner"><img src="./assets/Let-Down.webp" alt="Let Down"></div>
+            </div>
+            <div class="poster-card card-5">
+              <div class="card-inner"><img src="./assets/fake_plastic_tree.webp" alt="Fake Plastic Tree"></div>
+            </div>
+            <div class="poster-card card-6">
+              <div class="card-inner"><img src="./assets/i_can_t_handle_change.webp" alt="I Can't Handle Change"></div>
+            </div>
+            <div class="poster-card card-7">
+              <div class="card-inner"><img src="./assets/no_surprises.webp" alt="No Surprises">
+              </div>
+            </div>
+            <div class="poster-card card-8">
+              <div class="card-inner"><img src="./assets/space_song.webp" alt="Space Song"></div>
+            </div>
+            <div class="poster-card card-9">
+              <div class="card-inner"><img src="./assets/two_crows.webp" alt="Two Crows"></div>
+            </div>
+          </div>
+
+        </div>
+
       </div>
     </section>
 
     <!-- Entry Script -->
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script type="module" src="./main.js"></script>
 </body>
 

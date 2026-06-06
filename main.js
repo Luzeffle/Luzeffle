@@ -112,6 +112,9 @@ document.addEventListener("DOMContentLoaded", () => {
         // Initialize works section sticky scroll tracking
         initWorksStickyScroll();
 
+        // Initialize poster showcase timeline tracking
+        initPosterTimeline();
+
         // Remove intro container from DOM after fade transitions complete
         setTimeout(() => {
             const animContainer = document.getElementById("logo-animation-container");
@@ -153,7 +156,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const scrollTop = window.scrollY;
             const maxScroll = 500; // Complete transition over 500px scroll
             targetScrollProgress = Math.min(1.0, Math.max(0.0, scrollTop / maxScroll));
-            
+
             // Toggle unpinned class on hero section after animation is finished
             if (scrollTop >= 500) {
                 homeSection.classList.add("unpinned");
@@ -191,17 +194,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
         function render() {
             if (!document.getElementById("hero-ascii-canvas")) return; // Guard if element is removed
-            
+
             t += 0.025; // Controls rotation velocity
-            
+
             // Smoothly LERP scrollProgress for inertia scrolling animation
             scrollProgress += (targetScrollProgress - scrollProgress) * 0.1;
             anchor.style.setProperty("--scroll-progress", scrollProgress);
-            
+
             // Interpolate mouse coordinates smoothly back to center (hover is disabled)
             const targetX = cols / 2;
             const targetY = rows / 2;
-            
+
             // Smooth damping
             currentX += (targetX - currentX) * 0.15;
             currentY += (targetY - currentY) * 0.15;
@@ -212,11 +215,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Initialize empty spacing buffer
             const buffer = Array(rows).fill(null).map(() => Array(cols).fill(" "));
-            
+
             // 3D rotation angles
             const rotX = t * 0.45;
             const rotY = t * 0.7;
-            
+
             const cosX = Math.cos(rotX), sinX = Math.sin(rotX);
             const cosY = Math.cos(rotY), sinY = Math.sin(rotY);
 
@@ -287,7 +290,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (sx >= 0 && sx < cols && sy >= 0 && sy < rows) {
                     const depthVal = (z2 + 1.0) / 2.0; // Normalize Z depth between 0 and 1
                     const depthIndex = Math.floor(depthVal * (chars.length - 1));
-                    
+
                     // Transition character set to 'x' on scroll progress
                     let char;
                     if (scrollProgress > 0.7) {
@@ -302,7 +305,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // Convert character buffer to HTML string, wrapping illuminated proximity cells in spans
             const msx = Math.floor(currentX);
             const msy = Math.floor(currentY);
-            
+
             let htmlFrame = "";
             for (let y = 0; y < rows; y++) {
                 let line = "";
@@ -312,7 +315,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         const dx = x - msx;
                         const dy = y - msy;
                         const screenDist = Math.sqrt(dx * dx + (dy * 1.8) * (dy * 1.8));
-                        
+
                         if (isHovered && screenDist < 4.8) {
                             line += `<span style="color: #ffffff; font-weight: 600;">x</span>`;
                         } else {
@@ -324,7 +327,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
                 htmlFrame += line + "\n";
             }
-            
+
             canvas.innerHTML = htmlFrame;
             requestAnimationFrame(render);
         }
@@ -366,6 +369,209 @@ document.addEventListener("DOMContentLoaded", () => {
         window.addEventListener("scroll", updateActiveFolder);
         window.addEventListener("resize", updateActiveFolder);
         updateActiveFolder();
+    }
+
+    function initPosterTimeline() {
+        const showcase = document.querySelector(".poster-timeline-section");
+        if (!showcase) return;
+
+        gsap.registerPlugin(ScrollTrigger);
+
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: ".poster-timeline-section",
+                start: "top top",
+                end: "bottom bottom",
+                pin: true,
+                scrub: 1,
+                onUpdate: (self) => {
+                    // Enable pointer events on posters when fanned out (progress between 45% and 80%)
+                    if (self.progress >= 0.45 && self.progress <= 0.80) {
+                        showcase.classList.add("active-focus");
+                    } else {
+                        showcase.classList.remove("active-focus");
+                    }
+                }
+            }
+        });
+
+        // Precise visual layout coordinates for Stage 3 fanning
+        const cardDestinations = [
+            { selector: ".poster-card.card-1", x: "-22vw", y: "-18vh", z: -10, scale: 0.7 },
+            { selector: ".poster-card.card-2", x: "-23vw", y: "5vh", z: 80, scale: 0.8 }, // Sneaker
+            { selector: ".poster-card.card-3", x: "-2vw", y: "-26vh", z: 10, scale: 0.75 },
+            { selector: ".poster-card.card-4", x: "-3vw", y: "0vh", z: 120, scale: 1.0 }, // Central Statue
+            { selector: ".poster-card.card-5", x: "16vw", y: "-18vh", z: -10, scale: 0.7 },
+            { selector: ".poster-card.card-6", x: "0vw", y: "25vh", z: 20, scale: 0.75 },
+            { selector: ".poster-card.card-7", x: "20vw", y: "20vh", z: -15, scale: 0.7 },
+            { selector: ".poster-card.card-8", x: "-26vw", y: "20vh", z: -20, scale: 0.65 },
+            { selector: ".poster-card.card-9", x: "23vw", y: "2vh", z: 80, scale: 0.8 } // Mech
+        ];
+
+        // Initialize poster cards to opacity: 1 behind the cover card at the start of the timeline
+        cardDestinations.forEach((dest) => {
+            tl.set(dest.selector, { opacity: 1, z: 0, rotationY: 0, scale: dest.scale, x: 0, y: 0, rotationZ: 0 }, 0);
+        });
+
+        // STAGE 1: Shrink white cover card from full-viewport down to 320x440 portrait rectangle (0% to 20% duration)
+        // Set cover card at z: 50 (in front of poster cards at z: 0)
+        tl.fromTo(".poster-cover-card",
+            {
+                width: "100%",
+                height: "100%",
+                borderRadius: "0px",
+                boxShadow: "0 0 0 rgba(0,0,0,0)",
+                z: 50
+            },
+            {
+                width: "320px",
+                height: "440px",
+                borderRadius: "20px",
+                boxShadow: "0 20px 50px rgba(8, 8, 10, 0.15)",
+                z: 50,
+                duration: 0.20,
+                ease: "power1.out"
+            },
+            0
+        );
+
+        // Fade in cover internal designs as the card shrinks
+        tl.fromTo(".cover-design-inner",
+            { opacity: 0 },
+            { opacity: 1, duration: 0.15, ease: "power1.out" },
+            0.05
+        );
+
+        // Drag title from top-left to sit centered on top of cover card (above its top edge with padding)
+        tl.fromTo(".poster-section-title",
+            {
+                left: "40px",
+                xPercent: 0,
+                top: "80px",
+                y: 0,
+                scale: 1.0,
+                color: "#08080a",
+                z: 51
+            },
+            {
+                left: "50%",
+                xPercent: -50,
+                top: "50%",
+                y: -260,
+                scale: 0.45,
+                color: "#ffffff",
+                z: 51,
+                duration: 0.20,
+                ease: "power1.inOut"
+            },
+            0
+        );
+
+        // STAGE 2: THE ANCHORED BLOCK FLIP (Scroll Progress: 20% → 45%)
+        // Translate cover card slightly to the right (x: 120px) to act as a wing panel opening up close to the deck,
+        // and then slide it back to the center but at the back of the stack (z: -50).
+        tl.to(".poster-cover-card", {
+            rotationY: 180,
+            duration: 0.25,
+            ease: "power1.inOut"
+        }, 0.20);
+        tl.to(".poster-cover-card", {
+            x: "120px",
+            z: 100,
+            duration: 0.125,
+            ease: "power1.out"
+        }, 0.20);
+        tl.to(".poster-cover-card", {
+            x: 0,
+            z: -50,
+            duration: 0.125,
+            ease: "power1.in"
+        }, 0.325);
+
+        // Translate and rotate title along the same path, and fade out (make it hidden for the rest of the scrolling)
+        tl.to(".poster-section-title", {
+            rotationY: 180,
+            duration: 0.25,
+            ease: "power1.inOut"
+        }, 0.20);
+        tl.to(".poster-section-title", {
+            x: "120px",
+            z: 101,
+            opacity: 0, // fades to 0 and stays hidden
+            duration: 0.125,
+            ease: "power1.out"
+        }, 0.20);
+        tl.to(".poster-section-title", {
+            x: 0,
+            z: -49,
+            duration: 0.125,
+            ease: "power1.in"
+        }, 0.325);
+
+        // All 9 cards perform a uniform rotationY: 180 flip and diverge to create gaps
+        cardDestinations.forEach((dest) => {
+            const partialX = dest.x.endsWith("vw") ? `${parseFloat(dest.x) * 0.35}vw` : `${parseFloat(dest.x) * 0.35}px`;
+            const partialY = dest.y.endsWith("vh") ? `${parseFloat(dest.y) * 0.35}vh` : `${parseFloat(dest.y) * 0.35}px`;
+            const partialZ = dest.z * 0.35;
+
+            tl.to(dest.selector, {
+                rotationY: 180,
+                x: partialX,
+                y: partialY,
+                z: partialZ,
+                duration: 0.25,
+                ease: "power1.inOut"
+            }, 0.20);
+        });
+
+        // STAGE 3: THE MIDWAY ARTWORK SCATTER HOLD (Scroll Progress: 45% → 80%)
+        // Complete fanning to final coordinates, leaving 35% of the scroll timeline to observe the posters
+        cardDestinations.forEach((dest) => {
+            tl.to(dest.selector, {
+                x: dest.x,
+                y: dest.y,
+                z: dest.z,
+                scale: dest.scale,
+                rotationZ: 0,
+                duration: 0.10,
+                ease: "power2.out"
+            }, 0.45);
+        });
+
+        // STAGE 4: THE CLOSING 360-DEGREE COLLAPSE (Scroll Progress: 80% → 100%)
+        // Pull expanded posters back to center, rotating forward to 360, keeping opacity at 1
+        cardDestinations.forEach((dest) => {
+            tl.to(dest.selector, {
+                x: 0,
+                y: 0,
+                z: 0, // Lands at z: 0 (behind cover card at z: 50)
+                rotationY: 360,
+                opacity: 1,
+                scale: dest.scale,
+                rotationZ: 0,
+                duration: 0.20,
+                ease: "power1.inOut"
+            }, 0.80);
+        });
+
+        // Flip cover card back, returning from the left edge (x: -120px) and rising to the front to seal the deck
+        tl.to(".poster-cover-card", {
+            rotationY: 360,
+            duration: 0.20,
+            ease: "power1.inOut"
+        }, 0.80);
+        tl.to(".poster-cover-card", {
+            x: "-120px",
+            z: 100,
+            duration: 0.10,
+            ease: "power1.out"
+        }, 0.80);
+        tl.to(".poster-cover-card", {
+            x: 0,
+            z: 50,
+            duration: 0.10,
+            ease: "power1.in"
+        }, 0.90);
     }
 
     initHeroAscii();

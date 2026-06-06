@@ -279,7 +279,6 @@ html.lenis body {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
   /* subtle shadow */
   display: flex;
@@ -1670,7 +1669,8 @@ html.lenis body {
 .overlapping-section {
   position: relative;
   margin-top: 0;
-  background-color: #f5f5f7;
+  background-color: #fafafa;
+  /* changed to light gray off-white for contrast with white work-folder cards */
   border-top: 1px solid rgba(0, 0, 0, 0.05);
   padding: 40px;
   /* Equalized padding to 40 on all sides */
@@ -1712,8 +1712,8 @@ html.lenis body {
   margin: 0;
   box-sizing: border-box;
   position: relative;
-  padding-bottom: 140vh;
-  /* increased scroll space to guarantee Folder 3 stacks completely */
+  padding-bottom: 0;
+  /* Remove raw padding approximations */
 }
 
 #works .section-title {
@@ -1733,25 +1733,27 @@ html.lenis body {
 .work-folder {
   position: sticky;
   top: 170px;
-  /* offset below floating navbar and leave space for tabs */
   height: calc(100vh - 190px);
-  /* Stretched to bottom of viewport */
   background-color: #ffffff;
-  border: none;
-  /* Removed black outline */
-  border-radius: 0;
-  /* Removed rounded corners */
-  box-shadow: 0 10px 30px rgba(8, 8, 10, 0.04);
-  /* Subtle shadow */
-  margin-bottom: 70vh;
-  /* scroll gap */
+  box-shadow: 0 -4px 20px rgba(8, 8, 10, 0.02), 0 10px 30px rgba(8, 8, 10, 0.03);
+  margin-bottom: 0;
   box-sizing: border-box;
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
 }
 
-.work-folder:last-child {
+/* Ensure the last card retains the standard layout flow spacing */
+.work-folder:last-of-type {
   margin-bottom: 0;
-  /* padding-bottom on container handles final scroll space */
+}
+
+/* Structural Spacer: Prevents margin collapsing and locks the sticky track open */
+.works-scroll-spacer {
+  height: 10vh;
+  /* minimized scroll space for early exit */
+  width: 100%;
+  pointer-events: none;
+  visibility: hidden;
+  /* Remains completely invisible to the user interface */
 }
 
 /* Base z-indices for stacking folders */
@@ -1775,8 +1777,8 @@ html.lenis body {
   height: 42px;
   width: 220px;
   /* Fixed width for perfect side-by-side compilation */
-  background-color: #FCFCFC;
-  /* slightly dark background color */
+  background-color: #ffffff;
+  /* constant white background to let shadow distinguish it */
   border: none;
   border-radius: 0;
   /* Removed rounded corners */
@@ -1827,7 +1829,7 @@ html.lenis body {
 
 /* Active folder and tab styling */
 .work-folder.active {
-  box-shadow: 0 15px 40px rgba(8, 8, 10, 0.06);
+  box-shadow: 0 -6px 25px rgba(8, 8, 10, 0.04), 0 15px 40px rgba(8, 8, 10, 0.05);
   /* subtle active shadow */
 }
 
@@ -1857,7 +1859,10 @@ html.lenis body {
   width: 48%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
+  /* Pushes bottom list container directly to the bottom */
+  height: 100%;
+  padding: 20px 0;
 }
 
 .folder-right {
@@ -1866,86 +1871,46 @@ html.lenis body {
   /* Stretched height */
 }
 
-/* Large Brutalist Typography inside Folders */
-.group-num {
-  font-family: var(--font-display);
-  font-size: 11px;
-  font-weight: 600;
-  color: #8e8e93;
-  letter-spacing: 0.15em;
-  display: block;
-  margin-bottom: 14px;
-}
-
 .folder-headline {
   font-family: var(--font-display);
-  font-size: clamp(24px, 3.5vw, 38px);
-  /* Lessened slightly so that section-title is clearly greater */
-  font-weight: 700;
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 600;
   color: #08080a;
-  margin-bottom: 20px;
-  letter-spacing: -0.03em;
-  line-height: 1.05;
+  margin-bottom: 16px;
   text-transform: uppercase;
 }
 
 .folder-bio {
   font-family: var(--font-body);
-  font-size: clamp(15px, 1.8vw, 17px);
-  color: #08080a;
+  font-size: 15px;
+  color: #48484a;
   line-height: 1.6;
-  margin-bottom: 20px;
+  max-width: 90%;
 }
 
-.folder-list {
-  margin-left: 0;
-  padding-left: 20px;
-  margin-bottom: 28px;
-  list-style-type: square;
+/* The Minimal bottom meta system from image_7e2d21.jpg */
+.folder-bottom-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: auto;
+  /* Absolute safety push to bottom */
 }
 
-.folder-list li {
-  font-family: var(--font-body);
-  font-size: clamp(13px, 1.5vw, 15px);
-  color: #08080a;
-  line-height: 1.5;
-  margin-bottom: 10px;
-}
-
-.folder-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
+.list-row {
   font-family: var(--font-display);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
   color: #08080a;
-  border: 2px solid #08080a;
-  padding: 14px 28px;
-  border-radius: 4px;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  background-color: transparent;
-  cursor: pointer;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  align-self: flex-start;
+  padding: 16px 0;
+  border-top: 1px solid #08080a;
+  /* Dark border matching the font color */
 }
 
-.folder-button:hover {
-  background-color: #08080a;
-  color: #f5f5f7;
-  border-color: #08080a;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(8, 8, 10, 0.1);
-}
-
-.folder-button .btn-arrow {
-  transition: transform 0.3s ease;
-}
-
-.folder-button:hover .btn-arrow {
-  transform: translateX(5px);
+.list-row:last-child {
+  border-bottom: 1px solid #08080a;
 }
 
 /* --- STYLISED WIREFRAME BLUEPRINTS INSIDE FOLDERS --- */
@@ -1962,8 +1927,8 @@ html.lenis body {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  padding: 16px;
+  gap: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
@@ -1979,11 +1944,65 @@ html.lenis body {
   position: relative;
   overflow: hidden;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
 }
 
 .showcase-placeholder:hover {
   background-color: rgba(255, 255, 255, 0.95);
   border-color: rgba(8, 8, 10, 0.45);
+}
+
+.showcase-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  z-index: 1;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.showcase-placeholder:hover .showcase-img {
+  transform: scale(1.05);
+}
+
+.hover-modal {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(8, 8, 10, 0.85);
+  z-index: 99999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  padding-top: 100px;
+  /* Offset for floating header navbar */
+  box-sizing: border-box;
+}
+
+.showcase-placeholder.active .hover-modal {
+  opacity: 1;
+  pointer-events: auto;
+  /* enable click to close */
+}
+
+.hover-modal img {
+  max-width: 85vw;
+  max-height: 85vh;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transform: scale(0.92);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.showcase-placeholder.active .hover-modal img {
+  transform: scale(1);
 }
 
 .placeholder-tag {
@@ -2006,33 +2025,7 @@ html.lenis body {
 }
 
 .placeholder-crosshair {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-
-.placeholder-crosshair::before,
-.placeholder-crosshair::after {
-  content: "";
-  position: absolute;
-  background-color: rgba(8, 8, 10, 0.05);
-}
-
-.placeholder-crosshair::before {
-  top: 50%;
-  left: 8%;
-  right: 8%;
-  height: 1px;
-}
-
-.placeholder-crosshair::after {
-  left: 50%;
-  top: 8%;
-  bottom: 8%;
-  width: 1px;
+  display: none;
 }
 
 /* --- RESPONSIVE OVERRIDES FOR MOBILE --- */
@@ -2052,12 +2045,10 @@ html.lenis body {
     position: relative;
     top: 0 !important;
     height: auto !important;
-    /* Reset height on mobile */
-    margin-bottom: 40px !important;
     border-radius: 0;
   }
 
-  .work-folder:last-child {
+  .work-folder:last-of-type {
     margin-bottom: 20px !important;
   }
 
@@ -2068,7 +2059,7 @@ html.lenis body {
     width: 100% !important;
     /* full width tabs stacked vertically */
     height: 40px;
-    background-color: #f5f5f7 !important;
+    background-color: #FFFFFF !important;
     border: none;
     border-radius: 0;
     box-sizing: border-box;
@@ -2101,4 +2092,255 @@ html.lenis body {
     height: 320px !important;
     /* Restore height for mobile showcase layout */
   }
+}
+
+/* ==================================================================
+  POSTER SHOWCASE LAYOUT DESIGN
+================================================================== */
+.poster-timeline-section {
+  position: relative;
+  min-height: 400vh;
+  background-color: #08080a;
+  width: 100%;
+}
+
+.works-posters-spacer {
+  height: 100px;
+  /* Editorial spacing gap */
+  width: 100%;
+  background-color: #fafafa;
+  /* Blends with works section background */
+}
+
+.poster-sticky-viewport {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.poster-section-title {
+  font-family: var(--font-display, 'Outfit');
+  font-size: clamp(40px, 6vw, 68px);
+  /* Identical to SELECTED WORKS */
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  color: #08080a;
+  text-transform: uppercase;
+  position: absolute;
+  top: 80px;
+  /* Aligned vertically matching SELECTED WORKS */
+  left: 40px;
+  /* Left aligned, matching SELECTED WORKS */
+  line-height: 0.85;
+  z-index: 50;
+  will-change: transform, opacity;
+}
+
+.poster-section-title .meta-indicator {
+  display: block;
+  font-family: var(--font-display, 'Outfit');
+  font-size: 11px;
+  font-weight: 600;
+  color: #8e8e93;
+  letter-spacing: 0.15em;
+  margin-bottom: 12px;
+}
+
+.poster-matrix-portal {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  perspective: 2500px;
+  /* Deep unified 3D perspective field */
+  transform-style: preserve-3d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  will-change: transform;
+}
+
+.poster-cover-card {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  background-color: #fafafa;
+  border-radius: 0;
+  box-shadow: none;
+  transform-style: preserve-3d;
+  transform-origin: center center;
+  backface-visibility: visible;
+  z-index: 20;
+  will-change: transform, opacity, width, height, border-radius;
+}
+
+.cover-design-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  border-radius: inherit;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24px;
+  box-sizing: border-box;
+  background: #ffffff;
+  /* clean white card design for background match */
+  border: 1px solid rgba(8, 8, 10, 0.08);
+}
+
+.cover-crosshair {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.cover-crosshair::before,
+.cover-crosshair::after {
+  content: "";
+  position: absolute;
+  background-color: rgba(8, 8, 10, 0.04);
+  /* dark crosshair for white card */
+}
+
+.cover-crosshair::before {
+  top: 50%;
+  left: 8%;
+  right: 8%;
+  height: 1px;
+}
+
+.cover-crosshair::after {
+  left: 50%;
+  top: 8%;
+  bottom: 8%;
+  width: 1px;
+}
+
+.cover-meta-top {
+  display: flex;
+  justify-content: space-between;
+  font-family: Consolas, Monaco, "Fira Code", monospace;
+  font-size: 8px;
+  color: rgba(8, 8, 10, 0.5);
+  /* dark metal text color */
+  letter-spacing: 0.05em;
+}
+
+.cover-center-art {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cover-monogram {
+  font-family: var(--font-display, 'Outfit');
+  font-size: 90px;
+  font-weight: 800;
+  color: rgba(8, 8, 10, 0.03);
+  /* subtle dark monogram */
+  letter-spacing: -0.05em;
+  border: 1px solid rgba(8, 8, 10, 0.02);
+  padding: 0 20px;
+  border-radius: 12px;
+  user-select: none;
+}
+
+.poster-cluster-anchor {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+.poster-card {
+  position: absolute;
+  inset: 0;
+  width: 320px;
+  height: 440px;
+  margin: auto;
+  will-change: transform, opacity;
+  transition: box-shadow 0.3s ease;
+  z-index: 10;
+  pointer-events: none;
+  /* Pointer events mapped only in fanned out state */
+  transform-style: preserve-3d;
+  transform-origin: center center;
+  backface-visibility: visible;
+  opacity: 0;
+  /* initially hidden and flat */
+}
+
+/* Force Let-down.webp to be on top */
+.poster-card.card-4 {
+  z-index: 25 !important;
+}
+
+.poster-timeline-section.active-focus .poster-card {
+  pointer-events: auto;
+}
+
+.card-inner {
+  width: 100%;
+  height: 100%;
+  background: #08080a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  /* matched to cover card border radius */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  color: #f5f5f7;
+  font-family: var(--font-display, 'Outfit');
+  font-size: 12px;
+  transform: rotateY(180deg);
+  transform-style: preserve-3d;
+  backface-visibility: visible;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+}
+
+.card-inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.card-inner span {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  font-family: Consolas, Monaco, monospace;
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(8, 8, 10, 0.75);
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  z-index: 5;
+}
+
+/* 3D hover focus state */
+.poster-card:hover {
+  z-index: 100 !important;
+}
+
+.poster-card:hover .card-inner {
+  transform: rotateY(180deg) scale(1.08) translateZ(120px);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
 }
