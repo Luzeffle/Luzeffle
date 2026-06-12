@@ -25,7 +25,6 @@ export class AsciiEngine {
     this.STATE_SLIDE_DOWN = 4;
     this.STATE_COLLAPSE = 5;
     this.STATE_BRACKETS = 6;
-    this.STATE_MOVE_LOGO = 7;
     this.currentState = this.STATE_LOADING;
 
     // Timings
@@ -52,8 +51,7 @@ export class AsciiEngine {
       nameStandby: 800,  // Time (ms) for the full name "Angelo Lozano" to stand still in the center before sliding down
       slideDown: 800,    // Time (ms) for lowercase letters to slide down and fade out
       collapse: 800,     // Time (ms) for "A" and "L" to collapse together
-      brackets: 600,     // Time (ms) for brackets to snap on "AL"
-      moveLogo: 1250     // Time (ms) for logo to glide to site-header
+      brackets: 600      // Time (ms) for brackets to snap on "AL"
     };
 
     // Zoom and Scale Angle
@@ -380,45 +378,14 @@ export class AsciiEngine {
         }
 
         if (this.transitionTimer > this.durations.brackets) {
-          this.currentState = this.STATE_MOVE_LOGO;
-          this.transitionTimer = 0;
-
-          // Make intro container transparent and reveal main portfolio page to cross-fade
-          const introContainer = document.getElementById("intro-container");
-          if (introContainer) {
-            introContainer.style.backgroundColor = "transparent";
-          }
-          const portfolioContainer = document.getElementById("portfolio-container");
-          if (portfolioContainer) {
-            portfolioContainer.classList.remove("hide");
-          }
-
-          // Measure and set landed target variables on logo container
-          const domLogo = document.querySelector(".logo-symbol");
+          // Fade out the logo animation container
           const animContainer = document.getElementById("logo-animation-container");
-          if (domLogo && animContainer) {
-            const rect = domLogo.getBoundingClientRect();
-            const initialRect = animContainer.getBoundingClientRect();
-
-            const targetCenterX = rect.left + rect.width / 2;
-            const targetCenterY = rect.top + rect.height / 2;
-
-            const translateX = targetCenterX - window.innerWidth / 2;
-            const translateY = targetCenterY - window.innerHeight / 2;
-
-            const scale = rect.height / initialRect.height;
-
-            animContainer.style.setProperty("--logo-translate-x", `${translateX}px`);
-            animContainer.style.setProperty("--logo-translate-y", `${translateY}px`);
-            animContainer.style.setProperty("--logo-target-scale", scale);
-
-            animContainer.classList.add("landed");
+          if (animContainer) {
+            animContainer.style.transition = "opacity 0.5s ease";
+            animContainer.style.opacity = "0";
           }
-        }
-      }
 
-      else if (this.currentState === this.STATE_MOVE_LOGO) {
-        if (this.transitionTimer > this.durations.moveLogo) {
+          // Complete the intro immediately
           this.introActive = false;
           if (this.onTransitionComplete) {
             this.onTransitionComplete();

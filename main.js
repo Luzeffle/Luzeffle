@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
         introContainer.classList.add("dismissed");
         portfolioContainer.classList.remove("hide");
 
-        // Reveal header logo symbol to take over the landed intro logo
+        // Reveal header logo symbol immediately
         const headerLogo = document.querySelector(".site-header .logo-symbol");
         if (headerLogo) {
             headerLogo.style.visibility = "visible";
@@ -76,7 +76,46 @@ document.addEventListener("DOMContentLoaded", () => {
 
         attachCursorHoverHandlers();
 
-        // Initialize Lenis smooth scroll
+        // --- Hero Entrance Animation (scroll locked) ---
+        const heroSection = document.getElementById("home");
+        if (heroSection) {
+            heroSection.classList.add("hero-entrance");
+
+            // Stage 1: ANGELO LOZANO rises up (after 800ms to let ASCII star shine)
+            setTimeout(() => {
+                heroSection.classList.add("title-reveal");
+            }, 800);
+
+            // Stage 2: UI UX rises up (800ms after title)
+            setTimeout(() => {
+                heroSection.classList.add("uiux-reveal");
+            }, 1600);
+
+            // Stage 3: Remove entrance classes + unlock scrolling (after 3s total)
+            setTimeout(() => {
+                heroSection.classList.remove("hero-entrance", "title-reveal", "uiux-reveal");
+                initLenis();
+            }, 3000);
+        } else {
+            initLenis();
+        }
+
+        // Initialize works section sticky scroll tracking
+        initWorksStickyScroll();
+
+        // Initialize poster showcase timeline tracking
+        initPosterTimeline();
+
+        // Initialize scroll-dismiss for work section image overlays
+        initWorkOverlayScrollDismiss();
+
+        // Remove intro container from DOM after fade transitions complete
+        setTimeout(() => {
+            introContainer.remove();
+        }, 1000);
+    }
+
+    function initLenis() {
         document.documentElement.classList.add("lenis-smooth");
         const lenis = new Lenis({
             duration: 1.2,
@@ -99,7 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
             anchor.addEventListener('click', function (e) {
                 const targetId = this.getAttribute('href');
                 if (targetId === '#home') {
-                    return; // Handled by specialized home link click listener
+                    return;
                 }
                 const targetEl = document.querySelector(targetId);
                 if (targetEl) {
@@ -108,21 +147,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
         });
+    }
 
-        // Initialize works section sticky scroll tracking
-        initWorksStickyScroll();
-
-        // Initialize poster showcase timeline tracking
-        initPosterTimeline();
-
-        // Remove intro container from DOM after fade transitions complete
-        setTimeout(() => {
-            const animContainer = document.getElementById("logo-animation-container");
-            if (animContainer) {
-                animContainer.style.display = "none";
-            }
-            introContainer.remove();
-        }, 1000);
+    // Dismiss active work section image overlays on scroll
+    function initWorkOverlayScrollDismiss() {
+        window.addEventListener("scroll", () => {
+            const activeOverlays = document.querySelectorAll(".showcase-placeholder.active");
+            activeOverlays.forEach(el => el.classList.remove("active"));
+        });
     }
 
     // Set up loading triggers (fullscreen click transitions are handled in ascii-engine.js)
@@ -348,7 +380,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             let activeIndex = 0;
-            const stickyThreshold = 185; // Slightly below sticky top offset (170px) to trigger reliably
+            const stickyThreshold = 135; // Slightly below sticky top offset (120px) to trigger reliably
 
             folders.forEach((folder, index) => {
                 const rect = folder.getBoundingClientRect();
@@ -442,7 +474,7 @@ document.addEventListener("DOMContentLoaded", () => {
             0.05
         );
 
-        // Drag title from top-left to sit centered on top of cover card (above its top edge with padding)
+        // Animate title from top-left to center of the cover card
         tl.fromTo(".poster-section-title",
             {
                 left: "40px",
@@ -457,9 +489,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 left: "50%",
                 xPercent: -50,
                 top: "50%",
-                y: -260,
-                scale: 0.45,
-                color: "#ffffff",
+                yPercent: -50,
+                scale: 0.35,
+                color: "#08080a",
                 z: 51,
                 duration: 0.20,
                 ease: "power1.inOut"

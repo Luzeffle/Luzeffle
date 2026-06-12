@@ -274,7 +274,7 @@ html.lenis body {
   left: 50%;
   transform: translateX(-50%);
   width: calc(100% - 80px);
-  padding: 16px 24px;
+  padding: 10px 24px;
   background-color: rgba(8, 8, 10, 0.75);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -334,7 +334,7 @@ html.lenis body {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  padding: 95px 0 60px 0;
+  padding: 75px 0 60px 0;
   box-sizing: border-box;
   z-index: 20;
 }
@@ -348,7 +348,7 @@ html.lenis body {
   pointer-events: none;
   margin-bottom: 2vh;
   position: sticky;
-  top: 95px;
+  top: 75px;
   z-index: 5;
 }
 
@@ -432,7 +432,7 @@ html.lenis body {
 
 .hero-section.unpinned .hero-title-container {
   position: absolute;
-  top: calc(500px + 95px);
+  top: calc(500px + 75px);
 }
 
 .hero-section.unpinned .center-stack-wrapper {
@@ -680,6 +680,52 @@ html.lenis body {
   }
 }
 
+/* --- Hero Entrance Animation (scroll-locked rise-up) --- */
+.hero-section.hero-entrance .hero-title-container {
+  overflow: hidden;
+}
+
+.hero-section.hero-entrance .monumental-title span {
+  display: inline-block;
+  transform: translateY(110%);
+  opacity: 0;
+}
+
+.hero-section.hero-entrance.title-reveal .monumental-title span {
+  transform: translateY(0);
+  opacity: 1;
+  transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.8s ease;
+}
+
+.hero-section.hero-entrance .composite-row .composite-text:first-of-type {
+  transform: translate3d(-12vw, 110%, 0) !important;
+  opacity: 0;
+}
+
+.hero-section.hero-entrance .composite-row .composite-text:last-of-type {
+  transform: translate3d(12vw, 110%, 0) !important;
+  opacity: 0;
+}
+
+.hero-section.hero-entrance.uiux-reveal .composite-row .composite-text:first-of-type {
+  transform: translate3d(-12vw, 0, 0) !important;
+  opacity: 1;
+  transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1) 0.1s,
+    opacity 0.8s ease 0.1s;
+}
+
+.hero-section.hero-entrance.uiux-reveal .composite-row .composite-text:last-of-type {
+  transform: translate3d(12vw, 0, 0) !important;
+  opacity: 1;
+  transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1) 0.1s,
+    opacity 0.8s ease 0.1s;
+}
+
+.hero-section.hero-entrance .scroll-indicator {
+  opacity: 0 !important;
+}
+
 /* --- THE PERIODIC GRID WORKSPACE --- */
 .grid-section {
   flex: 1;
@@ -909,6 +955,26 @@ html.lenis body {
 .footer-link:hover {
   color: var(--accent-color);
   letter-spacing: 0.15em;
+}
+
+/* Footer giant name full-width sticky styling */
+.footer-massive-text-wrap {
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  max-width: calc(100% - 80px);
+  margin: 0 auto;
+  padding: 0;
+  z-index: 200;
+}
+
+.footer-giant-name {
+  font-size: clamp(4rem, 20vw, 12rem);
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+  color: var(--accent-color);
 }
 
 /* --- SECTION 3: Dynamic Editorial Case Study Panel --- */
@@ -1339,9 +1405,7 @@ html.lenis body {
   display: none !important;
 }
 
-.logo-animation-container.landed {
-  transform: translate(calc(-50% + var(--logo-translate-x, 0px)), calc(-50% + var(--logo-translate-y, 0px))) scale(var(--logo-target-scale, 1));
-}
+
 
 .logo-text-wrapper {
   display: flex;
@@ -1732,8 +1796,8 @@ html.lenis body {
 /* Enclosed Individual Folder Card */
 .work-folder {
   position: sticky;
-  top: 170px;
-  height: calc(100vh - 190px);
+  top: 120px;
+  height: calc(100vh - 140px);
   background-color: #ffffff;
   box-shadow: 0 -4px 20px rgba(8, 8, 10, 0.02), 0 10px 30px rgba(8, 8, 10, 0.03);
   margin-bottom: 0;
@@ -1767,6 +1831,11 @@ html.lenis body {
 
 .work-folder[data-folder="2"] {
   z-index: 30;
+}
+
+/* Boost folder z-index when image overlay is active so modal covers all folders */
+.work-folder:has(.showcase-placeholder.active) {
+  z-index: 9999 !important;
 }
 
 /* Folder tab header styling */
@@ -1970,8 +2039,11 @@ html.lenis body {
 
 .hover-modal {
   position: fixed;
-  inset: 0;
-  background-color: rgba(8, 8, 10, 0.85);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(8, 8, 10, 0.90);
   z-index: 99999;
   display: flex;
   justify-content: center;
@@ -1979,8 +2051,8 @@ html.lenis body {
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  padding-top: 100px;
-  /* Offset for floating header navbar */
+  padding: 88px 40px 24px 40px;
+  /* Top padding accounts for navbar, bottom/sides for breathing room */
   box-sizing: border-box;
 }
 
@@ -1991,8 +2063,8 @@ html.lenis body {
 }
 
 .hover-modal img {
-  max-width: 85vw;
-  max-height: 85vh;
+  max-width: 90%;
+  max-height: 100%;
   object-fit: contain;
   border-radius: 8px;
   box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
