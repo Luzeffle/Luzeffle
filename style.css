@@ -261,10 +261,7 @@ html.lenis body {
 }
 
 .portfolio-container.hide {
-  opacity: 0;
-  pointer-events: none;
-  height: 100vh;
-  overflow: hidden;
+  display: none !important;
 }
 
 /* Top Utility Navbar (replaces site-header but retains the class for JS selector compatibility) */
@@ -918,64 +915,7 @@ html.lenis body {
   border-color: var(--accent-color);
 }
 
-/* Site Footer */
-.site-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-top: 1px solid var(--border-color);
-  padding-top: 20px;
-  font-family: var(--font-display);
-  font-size: 9px;
-  color: var(--text-dim);
-  letter-spacing: 0.1em;
-}
-
-.site-footer .divider {
-  margin: 0 10px;
-  color: var(--border-color);
-}
-
-.site-footer .footer-left span:nth-child(1),
-.site-footer .footer-left span:nth-child(3) {
-  color: var(--text-secondary);
-}
-
-.site-footer .footer-right {
-  display: flex;
-  gap: 24px;
-}
-
-.footer-link {
-  color: var(--text-secondary);
-  text-decoration: none;
-  transition: var(--transition-smooth);
-}
-
-.footer-link:hover {
-  color: var(--accent-color);
-  letter-spacing: 0.15em;
-}
-
-/* Footer giant name full-width sticky styling */
-.footer-massive-text-wrap {
-  position: sticky;
-  bottom: 0;
-  width: 100%;
-  max-width: calc(100% - 80px);
-  margin: 0 auto;
-  padding: 0;
-  z-index: 200;
-}
-
-.footer-giant-name {
-  font-size: clamp(4rem, 20vw, 12rem);
-  text-align: center;
-  margin: 0;
-  padding: 0;
-  line-height: 1;
-  color: var(--accent-color);
-}
+/* Legacy footer styles removed; consolidated at the bottom of the file */
 
 /* --- SECTION 3: Dynamic Editorial Case Study Panel --- */
 .project-panel {
@@ -2050,7 +1990,7 @@ html.lenis body {
   align-items: center;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), pointer-events 0s linear;
   padding: 88px 40px 24px 40px;
   /* Top padding accounts for navbar, bottom/sides for breathing room */
   box-sizing: border-box;
@@ -2059,7 +1999,8 @@ html.lenis body {
 .showcase-placeholder.active .hover-modal {
   opacity: 1;
   pointer-events: auto;
-  /* enable click to close */
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), pointer-events 0s linear 0.3s;
+  /* enable click to close with a brief delay to prevent double-click glitches */
 }
 
 .hover-modal img {
@@ -2078,6 +2019,9 @@ html.lenis body {
 }
 
 .placeholder-tag {
+  position: absolute;
+  top: 16px;
+  left: 16px;
   font-family: Consolas, Monaco, "Fira Code", monospace;
   font-size: 9px;
   color: #8e8e93;
@@ -2171,9 +2115,11 @@ html.lenis body {
 ================================================================== */
 .poster-timeline-section {
   position: relative;
-  min-height: 400vh;
+  height: 100vh;
+  min-height: 100vh;
   background-color: #08080a;
   width: 100%;
+  overflow: hidden;
 }
 
 .works-posters-spacer {
@@ -2250,6 +2196,23 @@ html.lenis body {
   transform-origin: center center;
   backface-visibility: visible;
   z-index: 20;
+  will-change: transform, opacity, width, height, border-radius;
+}
+
+.about-cover-card {
+  position: absolute;
+  width: 320px;
+  height: 440px;
+  margin: auto;
+  background-color: #fafafa;
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(8, 8, 10, 0.15);
+  transform-style: preserve-3d;
+  transform-origin: center center;
+  backface-visibility: visible;
+  z-index: 21;
+  opacity: 0;
+  pointer-events: none;
   will-change: transform, opacity, width, height, border-radius;
 }
 
@@ -2415,4 +2378,372 @@ html.lenis body {
 .poster-card:hover .card-inner {
   transform: rotateY(180deg) scale(1.08) translateZ(120px);
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+}
+
+/* cover card inner graphics monogram */
+.cover-card-eg-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.eg-monogram {
+  font-family: var(--font-display, 'Outfit');
+  font-size: 72px;
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  color: #08080a;
+}
+
+.eg-subtitle {
+  font-family: Consolas, Monaco, "Fira Code", monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: rgba(8, 8, 10, 0.6);
+  margin-top: 8px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* ==================================================================
+   SECTION 4: Dedicated About Me Section (Awwwards design style)
+   ================================================================== */
+.about-section {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  color: #08080a;
+  padding: 80px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 55;
+  box-sizing: border-box;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+.about-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  max-width: none;
+  width: 100%;
+  align-items: start;
+}
+
+.about-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.about-left h2 {
+  font-family: var(--font-display, 'Outfit');
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: #08080a;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.about-right {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.about-lead-text {
+  font-family: var(--font-body, 'Space Grotesk');
+  font-size: 24px;
+  line-height: 1.5;
+  color: #08080a;
+  margin: 0;
+  font-weight: 400;
+}
+
+.soft-skills-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  gap: 40px;
+}
+
+.skills-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  flex: 1;
+}
+
+.skills-label {
+  font-family: Consolas, Monaco, monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(8, 8, 10, 0.4);
+  margin: 0;
+  white-space: nowrap;
+}
+
+.skills-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.skill-pill {
+  font-family: var(--font-display, 'Outfit');
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 100px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.skill-pill.filled {
+  background-color: #08080a;
+  color: #fafafa;
+  border: 1px solid #08080a;
+}
+
+.skill-pill.outlined {
+  background-color: transparent;
+  color: #08080a;
+  border: 1px solid rgba(8, 8, 10, 0.15);
+}
+
+.toolkit-pill {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toolkit-pill svg,
+.tool-svg {
+  height: 48px;
+  width: auto;
+  max-width: 100%;
+}
+
+.hero-left-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100%;
+}
+
+.left-contact-box {
+  margin-top: auto;
+  padding-top: 40px;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+}
+
+.contact-email-link {
+  font-family: 'Outfit', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: #08080a;
+  letter-spacing: 0.12em;
+  text-decoration: none;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 4px 0;
+  position: relative;
+  mix-blend-mode: difference;
+}
+
+.contact-arrow-icon {
+  font-size: 12px;
+  display: inline-block;
+  will-change: transform;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.contact-email-link:hover .contact-arrow-icon {
+  transform: translate3d(6px, 0, 0);
+}
+
+.contact-email-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: currentColor;
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.contact-email-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+/* ==================================================================
+   SECTION 5: Site Footer Section (Grounding and Giant Typography)
+   ================================================================== */
+.site-footer {
+  width: 100%;
+  height: 50vh;
+  /* Forces the footer section to fill 40% of the screen height */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* Pins utility links to the top, giant text to the bottom */
+  padding: 60px 40px 0px 40px;
+  /* Purges bottom padding completely so text hits the screen floor */
+  box-sizing: border-box;
+  overflow: hidden;
+  position: relative;
+  background-color: #08080a;
+  border-top: 1px solid var(--border-color);
+}
+
+.footer-utility-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+  width: 100%;
+}
+
+.footer-grid-column {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-grid-column.align-right {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.footer-label {
+  font-family: Consolas, Monaco, monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+}
+
+.footer-link {
+  font-family: var(--font-display, 'Outfit');
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+  color: var(--accent-color);
+}
+
+.footer-data-text {
+  font-family: var(--font-display, 'Outfit');
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  letter-spacing: 0.05em;
+}
+
+.footer-massive-text-wrap {
+  width: 100%;
+  margin-top: auto;
+  /* Absolute structural downward push lock */
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  /* Grounds the base metrics of the characters */
+  padding: 0;
+  position: relative;
+  overflow: visible;
+}
+
+.footer-giant-name {
+  position: relative;
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-family: var(--font-display, 'Outfit');
+  font-size: calc(12.55vw - 10px);
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  margin: 0;
+  padding: 0;
+  line-height: 0.72;
+  /* Tightens the character baseline box model to touch the screen border */
+  transform-origin: bottom center;
+}
+
+/* ==================================================================
+   SECTION 6: Responsive Mobile Overrides
+   ================================================================== */
+@media (max-width: 768px) {
+  .about-section {
+    padding: 80px 40px;
+  }
+
+  .about-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .about-left h2 {
+    font-size: 32px;
+  }
+
+  .about-lead-text {
+    font-size: 20px;
+  }
+
+  .footer-utility-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+
+  .footer-grid-column.align-right {
+    align-items: flex-start;
+    text-align: left;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-utility-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
 }

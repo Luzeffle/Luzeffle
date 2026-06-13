@@ -111,7 +111,7 @@
       </div>
     </nav>
 
-    <section id="home" class="hero-section">
+    <section id="home" class="hero-section hero-entrance">
 
       <div class="hero-title-container">
         <h1 class="hero-title monumental-title">
@@ -186,19 +186,19 @@
               <!-- Right: Media Viewport -->
               <div class="folder-right">
                 <div class="folder-media-viewport">
-                  <div class="showcase-placeholder" onclick="this.classList.add('active'); event.stopPropagation();">
+                  <div class="showcase-placeholder" onclick="openShowcase(this, event);">
                     <img src="assets/dashboard.webp" alt="RNM Hardware Dashboard" class="showcase-img">
                     <span class="placeholder-tag">RNM HARDWARE</span>
                     <div class="hover-modal"
-                      onclick="this.parentElement.classList.remove('active'); event.stopPropagation();">
+                      onclick="closeShowcase(this, event);">
                       <img src="assets/dashboard.webp" alt="RNM Hardware Dashboard">
                     </div>
                   </div>
-                  <div class="showcase-placeholder" onclick="this.classList.add('active'); event.stopPropagation();">
+                  <div class="showcase-placeholder" onclick="openShowcase(this, event);">
                     <img src="assets/pharmacy.webp" alt="Eri Pharmacy Interface" class="showcase-img">
                     <span class="placeholder-tag">ERI PHARMACY</span>
                     <div class="hover-modal"
-                      onclick="this.parentElement.classList.remove('active'); event.stopPropagation();">
+                      onclick="closeShowcase(this, event);">
                       <img src="assets/pharmacy.webp" alt="Eri Pharmacy Interface">
                     </div>
                   </div>
@@ -233,19 +233,19 @@
               <!-- Right: Media Viewport -->
               <div class="folder-right">
                 <div class="folder-media-viewport">
-                  <div class="showcase-placeholder" onclick="this.classList.add('active'); event.stopPropagation();">
+                  <div class="showcase-placeholder" onclick="openShowcase(this, event);">
                     <img src="assets/homepage.webp" alt="Sarap Packs Homepage" class="showcase-img">
                     <span class="placeholder-tag">SARAP PACKS</span>
                     <div class="hover-modal"
-                      onclick="this.parentElement.classList.remove('active'); event.stopPropagation();">
+                      onclick="closeShowcase(this, event);">
                       <img src="assets/homepage.webp" alt="Sarap Packs Homepage">
                     </div>
                   </div>
-                  <div class="showcase-placeholder" onclick="this.classList.add('active'); event.stopPropagation();">
+                  <div class="showcase-placeholder" onclick="openShowcase(this, event);">
                     <img src="assets/meditation.webp" alt="Mindfulness Dashboard" class="showcase-img">
                     <span class="placeholder-tag">MINDFULNESS</span>
                     <div class="hover-modal"
-                      onclick="this.parentElement.classList.remove('active'); event.stopPropagation();">
+                      onclick="closeShowcase(this, event);">
                       <img src="assets/meditation.webp" alt="Mindfulness Dashboard">
                     </div>
                   </div>
@@ -280,11 +280,11 @@
               <!-- Right: Media Viewport -->
               <div class="folder-right">
                 <div class="folder-media-viewport">
-                  <div class="showcase-placeholder" onclick="this.classList.add('active'); event.stopPropagation();">
+                  <div class="showcase-placeholder" onclick="openShowcase(this, event);">
                     <img src="assets/game_simulation.webp" alt="Snake AI Simulation" class="showcase-img">
                     <span class="placeholder-tag">SNAKE AI</span>
                     <div class="hover-modal"
-                      onclick="this.parentElement.classList.remove('active'); event.stopPropagation();">
+                      onclick="closeShowcase(this, event);">
                       <img src="assets/game_simulation.webp" alt="Snake AI Simulation">
                     </div>
                   </div>
@@ -317,42 +317,210 @@
             </div>
           </div>
 
+          <!-- The About Cover Card (for the expansion illusion) -->
+          <div class="about-cover-card">
+            <div class="cover-design-inner">
+            </div>
+          </div>
+
           <!-- 9 Individual Stylized Card Webp Nodes -->
           <div class="poster-cluster-anchor">
             <div class="poster-card card-1">
-              <div class="card-inner"><img src="./assets/Christmas-Kids.webp" alt="Christmas Kids"></div>
+              <div class="card-inner"><img src="./assets/Christmas-Kids.webp" alt="Christmas Kids"><span>[01 / CHRISTMAS
+                  KIDS]</span></div>
             </div>
             <div class="poster-card card-2">
-              <div class="card-inner"><img src="./assets/Creep.webp" alt="Creep"></div>
+              <div class="card-inner"><img src="./assets/Creep.webp" alt="Creep"><span>[02 / CREEP]</span></div>
             </div>
             <div class="poster-card card-3">
-              <div class="card-inner"><img src="./assets/Exit-Music.webp" alt="Exit Music"></div>
+              <div class="card-inner"><img src="./assets/Exit-Music.webp" alt="Exit Music"><span>[03 / EXIT
+                  MUSIC]</span></div>
             </div>
             <div class="poster-card card-4">
-              <div class="card-inner"><img src="./assets/Let-Down.webp" alt="Let Down"></div>
-            </div>
-            <div class="poster-card card-5">
-              <div class="card-inner"><img src="./assets/fake_plastic_tree.webp" alt="Fake Plastic Tree"></div>
-            </div>
-            <div class="poster-card card-6">
-              <div class="card-inner"><img src="./assets/i_can_t_handle_change.webp" alt="I Can't Handle Change"></div>
-            </div>
-            <div class="poster-card card-7">
-              <div class="card-inner"><img src="./assets/no_surprises.webp" alt="No Surprises">
+              <div class="card-inner"><img src="./assets/Let-Down.webp" alt="Let Down"><span>[04 / LET DOWN]</span>
               </div>
             </div>
+            <div class="poster-card card-5">
+              <div class="card-inner"><img src="./assets/fake_plastic_tree.webp" alt="Fake Plastic Tree"><span>[05 /
+                  FAKE PLASTIC TREE]</span></div>
+            </div>
+            <div class="poster-card card-6">
+              <div class="card-inner"><img src="./assets/i_can_t_handle_change.webp"
+                  alt="I Can't Handle Change"><span>[06 / I CAN'T HANDLE CHANGE]</span></div>
+            </div>
+            <div class="poster-card card-7">
+              <div class="card-inner"><img src="./assets/no_surprises.webp" alt="No Surprises"><span>[07 / NO
+                  SURPRISES]</span></div>
+            </div>
             <div class="poster-card card-8">
-              <div class="card-inner"><img src="./assets/space_song.webp" alt="Space Song"></div>
+              <div class="card-inner"><img src="./assets/space_song.webp" alt="Space Song"><span>[08 / SPACE
+                  SONG]</span></div>
             </div>
             <div class="poster-card card-9">
-              <div class="card-inner"><img src="./assets/two_crows.webp" alt="Two Crows"></div>
+              <div class="card-inner"><img src="./assets/two_crows.webp" alt="Two Crows"><span>[09 / TWO CROWS]</span>
+              </div>
             </div>
           </div>
 
         </div>
 
+        <!-- 4. Dedicated About Me Section -->
+        <section id="about" class="about-section">
+          <div class="about-container">
+            <div class="about-left hero-left-column">
+              <h2>ENGINEERING INTUITIVE INTERFACES &amp; PRODUCT EXPERIENCES</h2>
+              <!-- Left Side Contact Element -->
+              <div class="left-contact-box">
+                <a href="mailto:angelolozano2619@gmail.com" class="contact-email-link">
+                  angelolozano2619@gmail.com
+                  <span class="contact-arrow-icon">→</span>
+                </a>
+              </div>
+            </div>
+            <div class="about-right">
+              <p class="about-lead-text">
+                Hey, I'm Angelo, a UI/UX designer dedicated to transforming
+                complex system logic into seamless, high-performance digital
+                products that people love to use.
+              </p>
+              <div class="soft-skills-container">
+                <div class="skills-group">
+                  <h4 class="skills-label">Softskill</h4>
+                  <div class="skills-cloud">
+                    <span class="skill-pill filled">#Creativity</span>
+                    <span class="skill-pill outlined">#Adaptability</span>
+                    <span class="skill-pill filled">#Attention_to_detail</span>
+                    <span class="skill-pill outlined">#Flexibility</span>
+                    <span class="skill-pill outlined">#Communication</span>
+                  </div>
+                </div>
+                <div class="skills-group">
+                  <h4 class="skills-label">Hardskill</h4>
+                  <div class="skills-cloud">
+                    <span class="toolkit-pill">
+                      <svg viewBox="0 0 54 80" fill="none">
+                        <g clip-path="url(#figma__clip0_912_3)">
+                          <path
+                            d="M13.3333 80.0002C20.6933 80.0002 26.6667 74.0268 26.6667 66.6668V53.3335H13.3333C5.97333 53.3335 0 59.3068 0 66.6668C0 74.0268 5.97333 80.0002 13.3333 80.0002Z"
+                            fill="#0ACF83" />
+                          <path
+                            d="M0 39.9998C0 32.6398 5.97333 26.6665 13.3333 26.6665H26.6667V53.3332H13.3333C5.97333 53.3332 0 47.3598 0 39.9998Z"
+                            fill="#A259FF" />
+                          <path
+                            d="M0 13.3333C0 5.97333 5.97333 0 13.3333 0H26.6667V26.6667H13.3333C5.97333 26.6667 0 20.6933 0 13.3333Z"
+                            fill="#F24E1E" />
+                          <path
+                            d="M26.6667 0H40.0001C47.3601 0 53.3334 5.97333 53.3334 13.3333C53.3334 20.6933 47.3601 26.6667 40.0001 26.6667H26.6667V0Z"
+                            fill="#FF7262" />
+                          <path
+                            d="M53.3334 39.9998C53.3334 47.3598 47.3601 53.3332 40.0001 53.3332C32.6401 53.3332 26.6667 47.3598 26.6667 39.9998C26.6667 32.6398 32.6401 26.6665 40.0001 26.6665C47.3601 26.6665 53.3334 32.6398 53.3334 39.9998Z"
+                            fill="#1ABCFE" />
+                        </g>
+                        <defs>
+                          <clipPath id="figma__clip0_912_3">
+                            <rect width="53.3333" height="80" fill="white" />
+                          </clipPath>
+                        </defs>
+                      </svg>
+                    </span>
+                    <span class="toolkit-pill">
+                      <svg viewBox="0 0 80 80" fill="none">
+                        <g clip-path="url(#canva__clip0_905_1790)">
+                          <path
+                            d="M40 80C62.0914 80 80 62.0914 80 40C80 17.9086 62.0914 0 40 0C17.9086 0 0 17.9086 0 40C0 62.0914 17.9086 80 40 80Z"
+                            fill="#7D2AE7" />
+                          <path
+                            d="M40 80C62.0914 80 80 62.0914 80 40C80 17.9086 62.0914 0 40 0C17.9086 0 0 17.9086 0 40C0 62.0914 17.9086 80 40 80Z"
+                            fill="url(#canva__paint0_radial_905_1790)" />
+                          <path
+                            d="M40 80C62.0914 80 80 62.0914 80 40C80 17.9086 62.0914 0 40 0C17.9086 0 0 17.9086 0 40C0 62.0914 17.9086 80 40 80Z"
+                            fill="url(#canva__paint1_radial_905_1790)" />
+                          <path
+                            d="M40 80C62.0914 80 80 62.0914 80 40C80 17.9086 62.0914 0 40 0C17.9086 0 0 17.9086 0 40C0 62.0914 17.9086 80 40 80Z"
+                            fill="url(#canva__paint2_radial_905_1790)" />
+                          <path
+                            d="M40 80C62.0914 80 80 62.0914 80 40C80 17.9086 62.0914 0 40 0C17.9086 0 0 17.9086 0 40C0 62.0914 17.9086 80 40 80Z"
+                            fill="url(#canva__paint3_radial_905_1790)" />
+                          <path
+                            d="M57.2691 48.2052C56.939 48.2052 56.6485 48.484 56.3462 49.0928C52.9323 56.0153 47.0358 60.9134 40.2125 60.9134C32.3228 60.9134 27.437 53.7913 27.437 43.9522C27.437 27.2855 36.7232 17.6491 44.8796 17.6491C48.691 17.6491 51.0186 20.0443 51.0186 23.8559C51.0186 28.3796 48.4485 30.7748 48.4485 32.3702C48.4485 33.0864 48.8939 33.5201 49.7773 33.5201C53.3264 33.5201 57.4918 29.4419 57.4918 23.6808C57.4918 18.0947 52.63 13.9888 44.4737 13.9888C30.994 13.9888 19.0142 26.4858 19.0142 43.777C19.0142 57.1614 26.6572 66.0061 38.45 66.0061C50.9668 66.0061 58.2043 53.5526 58.2043 49.5105C58.2043 48.6153 57.7466 48.2052 57.2691 48.2052Z"
+                            fill="white" />
+                        </g>
+                        <defs>
+                          <radialGradient id="canva__paint0_radial_905_1790" cx="0" cy="0" r="1"
+                            gradientUnits="userSpaceOnUse"
+                            gradientTransform="translate(15.453 70.9057) rotate(-49.416) scale(61.8733)">
+                            <stop stop-color="#6420FF" />
+                            <stop offset="1" stop-color="#6420FF" stop-opacity="0" />
+                          </radialGradient>
+                          <radialGradient id="canva__paint1_radial_905_1790" cx="0" cy="0" r="1"
+                            gradientUnits="userSpaceOnUse"
+                            gradientTransform="translate(21.1788 9.09457) rotate(54.703) scale(69.7735)">
+                            <stop stop-color="#00C4CC" />
+                            <stop offset="1" stop-color="#00C4CC" stop-opacity="0" />
+                          </radialGradient>
+                          <radialGradient id="canva__paint2_radial_905_1790" cx="0" cy="0" r="1"
+                            gradientUnits="userSpaceOnUse"
+                            gradientTransform="translate(15.4526 70.9053) rotate(-45.1954) scale(61.1242 28.1118)">
+                            <stop stop-color="#6420FF" />
+                            <stop offset="1" stop-color="#6420FF" stop-opacity="0" />
+                          </radialGradient>
+                          <radialGradient id="canva__paint3_radial_905_1790" cx="0" cy="0" r="1"
+                            gradientUnits="userSpaceOnUse"
+                            gradientTransform="translate(32.7158 10.7789) rotate(66.5198) scale(62.9836 105.512)">
+                            <stop stop-color="#00C4CC" stop-opacity="0.725916" />
+                            <stop offset="0.0001" stop-color="#00C4CC" />
+                            <stop offset="1" stop-color="#00C4CC" stop-opacity="0" />
+                          </radialGradient>
+                          <clipPath id="canva__clip0_905_1790">
+                            <rect width="80" height="80" fill="white" />
+                          </clipPath>
+                        </defs>
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
       </div>
     </section>
+
+    <footer class="site-footer">
+      <!-- Minimalist Directory & Information Grid -->
+      <div class="footer-utility-grid">
+        <div class="footer-grid-column">
+          <span class="footer-label">DIRECTORY</span>
+          <a href="#home" class="footer-link">HOME</a>
+          <a href="#works" class="footer-link">WORKS</a>
+          <a href="#about" class="footer-link">ABOUT</a>
+        </div>
+
+        <div class="footer-grid-column">
+          <span class="footer-label">SOCIALS</span>
+          <a href="https://github.com" target="_blank" class="footer-link">GITHUB</a>
+          <a href="https://linkedin.com" target="_blank" class="footer-link">LINKEDIN</a>
+          <a href="https://figma.com" target="_blank" class="footer-link">FIGMA</a>
+        </div>
+
+        <div class="footer-grid-column">
+          <span class="footer-label">LOCALIZATION</span>
+          <span class="footer-data-text">DAVAO, PHILIPPINES</span>
+          <span class="footer-data-text">© 2026 ALL RIGHTS RESERVED</span>
+        </div>
+
+        <div class="footer-grid-column align-right">
+          <span class="footer-label">NAVIGATION</span>
+          <a href="#home" class="footer-link back-to-top">BACK TO TOP ↑</a>
+        </div>
+      </div>
+
+      <!-- Enormous Dynamic Typographic Container -->
+      <div class="footer-massive-text-wrap">
+        <h1 class="footer-giant-name">ANGELOLOZANO</h1>
+      </div>
+    </footer>
 
 
 

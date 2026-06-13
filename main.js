@@ -3,6 +3,36 @@
 
 import { AsciiEngine } from "./ascii-engine.js";
 
+// Global showcase handlers to prevent double-click / spam glitches
+window.openShowcase = function(el, event) {
+    if (event) event.stopPropagation();
+    if (el.classList.contains('active') || el.dataset.cooldown) return;
+    
+    el.dataset.cooldown = 'true';
+    setTimeout(() => {
+        delete el.dataset.cooldown;
+    }, 450); // 450ms cooldown
+    
+    el.classList.add('active');
+};
+
+window.closeShowcase = function(el, event) {
+    if (event) {
+        event.stopPropagation();
+        // Only allow closing if clicking directly on the background overlay (outside the image content)
+        if (event.target !== el) return;
+    }
+    const parent = el.parentElement;
+    if (parent.dataset.cooldown) return;
+    
+    parent.dataset.cooldown = 'true';
+    setTimeout(() => {
+        delete parent.dataset.cooldown;
+    }, 450);
+    
+    parent.classList.remove('active');
+};
+
 document.addEventListener("DOMContentLoaded", () => {
     const introContainer = document.getElementById("intro-container");
     const portfolioContainer = document.getElementById("portfolio-container");
@@ -413,12 +443,12 @@ document.addEventListener("DOMContentLoaded", () => {
             scrollTrigger: {
                 trigger: ".poster-timeline-section",
                 start: "top top",
-                end: "bottom bottom",
+                end: "+=150%",
                 pin: true,
                 scrub: 1,
                 onUpdate: (self) => {
-                    // Enable pointer events on posters when fanned out (progress between 45% and 80%)
-                    if (self.progress >= 0.45 && self.progress <= 0.80) {
+                    // Enable pointer events on posters when fanned out (progress between 35% and 55%)
+                    if (self.progress >= 0.35 && self.progress <= 0.55) {
                         showcase.classList.add("active-focus");
                     } else {
                         showcase.classList.remove("active-focus");
@@ -445,8 +475,25 @@ document.addEventListener("DOMContentLoaded", () => {
             tl.set(dest.selector, { opacity: 1, z: 0, rotationY: 0, scale: dest.scale, x: 0, y: 0, rotationZ: 0 }, 0);
         });
 
-        // STAGE 1: Shrink white cover card from full-viewport down to 320x440 portrait rectangle (0% to 20% duration)
-        // Set cover card at z: 50 (in front of poster cards at z: 0)
+        // Initialize about section components
+        tl.set(".left-contact-box", { y: 80, opacity: 0 }, 0);
+        tl.set(".about-lead-text", { y: 80, opacity: 0 }, 0);
+        tl.set(".soft-skills-container .skills-group", { y: 60, opacity: 0 }, 0);
+
+        // Initialize about-cover-card to be invisible and match the closed cover card size/position
+        tl.set(".about-cover-card", {
+            width: "320px",
+            height: "440px",
+            borderRadius: "20px",
+            boxShadow: "0 20px 50px rgba(8, 8, 10, 0.15)",
+            z: 21,
+            x: 0,
+            y: 0,
+            rotationY: 0,
+            opacity: 0
+        }, 0);
+
+        // STAGE 1: Shrink white cover card from full-viewport down to 320x440 portrait rectangle (0% to 15% duration)
         tl.fromTo(".poster-cover-card",
             {
                 width: "100%",
@@ -461,7 +508,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 borderRadius: "20px",
                 boxShadow: "0 20px 50px rgba(8, 8, 10, 0.15)",
                 z: 50,
-                duration: 0.20,
+                duration: 0.15,
                 ease: "power1.out"
             },
             0
@@ -470,7 +517,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Fade in cover internal designs as the card shrinks
         tl.fromTo(".cover-design-inner",
             { opacity: 0 },
-            { opacity: 1, duration: 0.15, ease: "power1.out" },
+            { opacity: 1, duration: 0.10, ease: "power1.out" },
             0.05
         );
 
@@ -493,52 +540,52 @@ document.addEventListener("DOMContentLoaded", () => {
                 scale: 0.35,
                 color: "#08080a",
                 z: 51,
-                duration: 0.20,
+                duration: 0.15,
                 ease: "power1.inOut"
             },
             0
         );
 
-        // STAGE 2: THE ANCHORED BLOCK FLIP (Scroll Progress: 20% → 45%)
+        // STAGE 2: THE ANCHORED BLOCK FLIP (Scroll Progress: 15% → 35%)
         // Translate cover card slightly to the right (x: 120px) to act as a wing panel opening up close to the deck,
         // and then slide it back to the center but at the back of the stack (z: -50).
         tl.to(".poster-cover-card", {
             rotationY: 180,
-            duration: 0.25,
+            duration: 0.20,
             ease: "power1.inOut"
-        }, 0.20);
+        }, 0.15);
         tl.to(".poster-cover-card", {
             x: "120px",
             z: 100,
-            duration: 0.125,
+            duration: 0.10,
             ease: "power1.out"
-        }, 0.20);
+        }, 0.15);
         tl.to(".poster-cover-card", {
             x: 0,
             z: -50,
-            duration: 0.125,
+            duration: 0.10,
             ease: "power1.in"
-        }, 0.325);
+        }, 0.25);
 
-        // Translate and rotate title along the same path, and fade out (make it hidden for the rest of the scrolling)
+        // Translate and rotate title along the same path, and fade out
         tl.to(".poster-section-title", {
             rotationY: 180,
-            duration: 0.25,
+            duration: 0.20,
             ease: "power1.inOut"
-        }, 0.20);
+        }, 0.15);
         tl.to(".poster-section-title", {
             x: "120px",
             z: 101,
             opacity: 0, // fades to 0 and stays hidden
-            duration: 0.125,
+            duration: 0.10,
             ease: "power1.out"
-        }, 0.20);
+        }, 0.15);
         tl.to(".poster-section-title", {
             x: 0,
             z: -49,
-            duration: 0.125,
+            duration: 0.10,
             ease: "power1.in"
-        }, 0.325);
+        }, 0.25);
 
         // All 9 cards perform a uniform rotationY: 180 flip and diverge to create gaps
         cardDestinations.forEach((dest) => {
@@ -551,13 +598,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 x: partialX,
                 y: partialY,
                 z: partialZ,
-                duration: 0.25,
+                duration: 0.20,
                 ease: "power1.inOut"
-            }, 0.20);
+            }, 0.15);
         });
 
-        // STAGE 3: THE MIDWAY ARTWORK SCATTER HOLD (Scroll Progress: 45% → 80%)
-        // Complete fanning to final coordinates, leaving 35% of the scroll timeline to observe the posters
+        // STAGE 3: THE MIDWAY ARTWORK SCATTER HOLD (Scroll Progress: 35% → 55%)
+        // Complete fanning to final coordinates
         cardDestinations.forEach((dest) => {
             tl.to(dest.selector, {
                 x: dest.x,
@@ -567,43 +614,110 @@ document.addEventListener("DOMContentLoaded", () => {
                 rotationZ: 0,
                 duration: 0.10,
                 ease: "power2.out"
-            }, 0.45);
+            }, 0.35);
         });
 
-        // STAGE 4: THE CLOSING 360-DEGREE COLLAPSE (Scroll Progress: 80% → 100%)
-        // Pull expanded posters back to center, rotating forward to 360, keeping opacity at 1
+        // STAGE 4: THE CLOSING COLLAPSE AND ORIGINAL COVER CARD FLIP BACK (Scroll Progress: 55% → 70%)
+        // Pull expanded posters back to center, rotating forward to 360, and fading out
         cardDestinations.forEach((dest) => {
             tl.to(dest.selector, {
                 x: 0,
                 y: 0,
-                z: 0, // Lands at z: 0 (behind cover card at z: 50)
+                z: 0,
                 rotationY: 360,
-                opacity: 1,
                 scale: dest.scale,
                 rotationZ: 0,
-                duration: 0.20,
+                duration: 0.15,
                 ease: "power1.inOut"
-            }, 0.80);
+            }, 0.55);
+            
+            tl.to(dest.selector, {
+                opacity: 0,
+                duration: 0.05
+            }, 0.65);
         });
 
-        // Flip cover card back, returning from the left edge (x: -120px) and rising to the front to seal the deck
+        // Flip original cover card back, returning from the left edge (x: -120px) and rising to the front to seal the deck
         tl.to(".poster-cover-card", {
             rotationY: 360,
-            duration: 0.20,
+            duration: 0.15,
             ease: "power1.inOut"
-        }, 0.80);
+        }, 0.55);
         tl.to(".poster-cover-card", {
             x: "-120px",
             z: 100,
-            duration: 0.10,
+            duration: 0.075,
             ease: "power1.out"
-        }, 0.80);
+        }, 0.55);
         tl.to(".poster-cover-card", {
             x: 0,
             z: 50,
-            duration: 0.10,
+            duration: 0.075,
             ease: "power1.in"
-        }, 0.90);
+        }, 0.625);
+
+        // Hide original cover card exactly at 70% so it swaps cleanly
+        tl.to(".poster-cover-card", {
+            opacity: 0,
+            duration: 0.01
+        }, 0.70);
+
+        // STAGE 5: REVEAL DUPLICATE COVER CARD & EXPAND (Scroll Progress: 70% → 85%)
+        // Make about-cover-card visible
+        tl.to(".about-cover-card", {
+            opacity: 1,
+            duration: 0.01
+        }, 0.70);
+
+        // Expand duplicate cover card to full viewport
+        tl.to(".about-cover-card", {
+            width: "100%",
+            height: "100%",
+            borderRadius: "0px",
+            boxShadow: "0 0 0 rgba(0,0,0,0)",
+            z: 100,
+            duration: 0.15,
+            ease: "power2.inOut"
+        }, 0.70);
+
+        // STAGE 6: ABOUT ME CONTENT REVEAL (Scroll Progress: 85% → 100%)
+        // Fade in the about-section overlay wrapper
+        tl.to(".about-section", {
+            opacity: 1,
+            pointerEvents: "auto",
+            duration: 0.02,
+            ease: "power1.inOut"
+        }, 0.85);
+
+        // Staggered slide up of text content
+        tl.to(".about-left h2", {
+            y: 0,
+            opacity: 1,
+            duration: 0.06,
+            ease: "power2.out"
+        }, 0.87);
+
+        tl.to(".left-contact-box", {
+            y: 0,
+            opacity: 1,
+            duration: 0.06,
+            ease: "power2.out"
+        }, 0.89);
+
+        tl.to(".about-lead-text", {
+            y: 0,
+            opacity: 1,
+            duration: 0.06,
+            ease: "power2.out"
+        }, 0.91);
+
+        tl.to(".soft-skills-container .skills-group", {
+            y: 0,
+            opacity: 1,
+            duration: 0.06,
+            ease: "power2.out",
+            stagger: 0.02
+        }, 0.93);
     }
 
     initHeroAscii();
