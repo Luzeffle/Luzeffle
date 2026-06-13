@@ -4,19 +4,19 @@
 */
 
 :root {
-  --bg-primary: #08080a;
+  --bg-primary: #2C2C2C;
   --bg-secondary: #0e0e12;
   --bg-grid: #131318;
-  --border-color: rgba(255, 255, 255, 0.05);
-  --border-hover: rgba(255, 255, 255, 0.4);
+  --border-color: rgba(243, 244, 244, 0.05);
+  --border-hover: rgba(243, 244, 244, 0.4);
 
   --text-primary: #f5f5f7;
   --text-secondary: #8e8e93;
   --text-dim: #48484a;
 
-  --accent-color: #ffffff;
+  --accent-color: #F3F4F4;
   /* Monochromatic Crisp White */
-  --accent-rgb: 255, 255, 255;
+  --accent-rgb: 243, 244, 244;
   --accent-secondary: #e5e5e7;
   /* High-contrast sand-silver */
 
@@ -90,10 +90,39 @@ html.lenis body {
   background: var(--accent-color);
 }
 
-/* Custom mouse follower disabled, default system cursor restored */
+/* Subtle ASCII Cursor Follower */
 .mouse-follower {
-  display: none !important;
+  position: fixed;
+  top: -6px;
+  left: -4px;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
+.trail-segment {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  font-family: Consolas, Monaco, "Fira Code", monospace;
+  color: var(--accent-color);
+  line-height: 1;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+  user-select: none;
+  z-index: 9999;
+}
+
+.trail-segment:nth-child(1) { font-size: 12px; opacity: 0.95; }
+.trail-segment:nth-child(2) { font-size: 12px; opacity: 0.85; }
+.trail-segment:nth-child(3) { font-size: 11px; opacity: 0.70; }
+.trail-segment:nth-child(4) { font-size: 11px; opacity: 0.55; }
+.trail-segment:nth-child(5) { font-size: 10px; opacity: 0.40; }
+.trail-segment:nth-child(6) { font-size: 9px; opacity: 0.25; }
+.trail-segment:nth-child(7) { font-size: 8px; opacity: 0.15; }
+.trail-segment:nth-child(8) { font-size: 7px; opacity: 0.08; }
 
 /* --- Background Grid System --- */
 .bg-coordinates {
@@ -103,22 +132,15 @@ html.lenis body {
   width: 100%;
   height: 100%;
   background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+    linear-gradient(to right, rgba(243, 244, 244, 0.015) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(243, 244, 244, 0.015) 1px, transparent 1px);
   background-size: 80px 80px;
   pointer-events: none;
   z-index: 1;
 }
 
 .background-radial-glow {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle 400px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(var(--accent-rgb), 0.035), transparent 80%);
-  pointer-events: none;
-  z-index: 2;
+  display: none !important; /* Glow disabled in favor of subtle ASCII following */
 }
 
 /* --- SECTION 1: Fullscreen ASCII Loading Intro --- */
@@ -156,7 +178,7 @@ html.lenis body {
   font-size: 8px;
   line-height: 11px;
   letter-spacing: 0.16em;
-  color: #ffffff;
+  color: #F3F4F4;
   background-color: var(--bg-primary);
   overflow: hidden;
   white-space: pre;
@@ -168,7 +190,7 @@ html.lenis body {
   z-index: 10;
   transition: cursor 0.3s ease;
   user-select: none;
-  text-shadow: 0 0 1px rgba(255, 255, 255, 0.4);
+  text-shadow: 0 0 1px rgba(243, 244, 244, 0.4);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -272,10 +294,10 @@ html.lenis body {
   transform: translateX(-50%);
   width: calc(100% - 80px);
   padding: 10px 24px;
-  background-color: rgba(8, 8, 10, 0.75);
+  background-color: rgba(44, 44, 44, 0.75);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(243, 244, 244, 0.08);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
   /* subtle shadow */
   display: flex;
@@ -284,6 +306,28 @@ html.lenis body {
   z-index: 150;
   box-sizing: border-box;
   transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+/* Dynamic Border Spotlight outline */
+.hero-navbar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: radial-gradient(120px circle at var(--nav-x, 0px) var(--nav-y, 0px), rgba(243, 244, 244, 0.35), transparent 70%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 2;
+}
+
+.hero-navbar:hover::before {
+  opacity: 1;
 }
 
 .navbar-left {
@@ -455,7 +499,7 @@ html.lenis body {
   font-weight: 600;
   line-height: 1.0;
   letter-spacing: -0.02em;
-  color: #ffffff;
+  color: #F3F4F4;
   transition: opacity 0.6s ease;
   /* Animate opacity for portal transition */
   will-change: transform, opacity;
@@ -477,7 +521,7 @@ html.lenis body {
   font-size: 6.5vw;
   font-weight: 600;
   letter-spacing: -0.04em;
-  color: #ffffff;
+  color: #F3F4F4;
   opacity: var(--scroll-progress, 0);
   /* Pop up on scroll */
   transform: scale(calc(0.7 + 0.3 * var(--scroll-progress, 0)));
@@ -494,7 +538,7 @@ html.lenis body {
   position: absolute;
   width: 100%;
   height: 100%;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(243, 244, 244, 0.06);
   background-color: #0e0e12;
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
   border-radius: 6px;
@@ -519,30 +563,30 @@ html.lenis body {
 .window-layer-1 {
   z-index: 30;
   transform: translate3d(0, 0, 0);
-  border-color: rgba(255, 255, 255, 0.08);
+  border-color: rgba(243, 244, 244, 0.08);
 }
 
 /* Interactive hover expansion (+12px expansion step for deep fanning) */
 .center-stack-wrapper:hover .window-layer-3 {
   transform: translate3d(-28px, -28px, 0);
-  border-color: rgba(255, 255, 255, 0.12);
+  border-color: rgba(243, 244, 244, 0.12);
 }
 
 .center-stack-wrapper:hover .window-layer-2 {
   transform: translate3d(-14px, -14px, 0);
-  border-color: rgba(255, 255, 255, 0.16);
+  border-color: rgba(243, 244, 244, 0.16);
 }
 
 .center-stack-wrapper:hover .window-layer-1 {
   transform: translate3d(0, 0, 0);
-  border-color: rgba(255, 255, 255, 0.25);
-  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 255, 255, 0.03);
+  border-color: rgba(243, 244, 244, 0.25);
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.8), 0 0 20px rgba(243, 244, 244, 0.03);
 }
 
 .window-header {
   height: 24px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  background-color: rgba(255, 255, 255, 0.01);
+  border-bottom: 1px solid rgba(243, 244, 244, 0.06);
+  background-color: rgba(243, 244, 244, 0.01);
   display: flex;
   align-items: center;
   padding: 0 12px;
@@ -554,19 +598,19 @@ html.lenis body {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.15);
+  background-color: rgba(243, 244, 244, 0.15);
   transition: background-color 0.4s ease;
 }
 
 .center-stack-wrapper:hover .window-dot {
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: rgba(243, 244, 244, 0.3);
 }
 
 #hero-ascii-canvas {
   font-family: Consolas, Monaco, "Lucida Console", monospace;
   font-size: 10px;
   line-height: 13px;
-  color: #ffffff;
+  color: #F3F4F4;
   margin: 0;
   padding: 0;
   white-space: pre;
@@ -840,7 +884,7 @@ html.lenis body {
 /* Empty Cell Grid Layout Filler */
 .grid-cell.cell-empty {
   background: transparent;
-  border: 1px dashed rgba(255, 255, 255, 0.015);
+  border: 1px dashed rgba(243, 244, 244, 0.015);
   pointer-events: none;
 }
 
@@ -1101,7 +1145,7 @@ html.lenis body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to bottom, transparent 60%, rgba(8, 8, 10, 0.4));
+  background: linear-gradient(to bottom, transparent 60%, rgba(44, 44, 44, 0.4));
   pointer-events: none;
 }
 
@@ -1327,7 +1371,7 @@ html.lenis body {
   transition: transform 1.25s cubic-bezier(0.85, 0, 0.15, 1), opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1);
   will-change: transform, opacity;
   letter-spacing: -0.05em;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+  text-shadow: 0 0 10px rgba(243, 244, 244, 0.1);
 }
 
 .logo-animation-container.name-active {
@@ -1451,7 +1495,7 @@ html.lenis body {
   position: absolute;
   opacity: 0;
   will-change: transform, opacity;
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.15), 0 2px 8px rgba(0, 0, 0, 0.08); /* subtle soft shadow */
   background-color: var(--bg-secondary);
   border: 1px solid var(--border-color);
   border-radius: 6px;
@@ -1564,7 +1608,7 @@ html.lenis body {
   flex-direction: column;
   justify-content: space-between;
   padding: 16px;
-  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.015) 0%, transparent 80%);
+  background: radial-gradient(circle at center, rgba(243, 244, 244, 0.015) 0%, transparent 80%);
 }
 
 /* Allow images inside placeholder later */
@@ -1612,7 +1656,7 @@ html.lenis body {
 .collage-crosshair::after {
   content: '';
   position: absolute;
-  background-color: rgba(255, 255, 255, 0.15);
+  background-color: rgba(243, 244, 244, 0.15);
 }
 
 .collage-crosshair::before {
@@ -1673,7 +1717,7 @@ html.lenis body {
 .overlapping-section {
   position: relative;
   margin-top: 0;
-  background-color: #fafafa;
+  background-color: #F3F4F4;
   /* changed to light gray off-white for contrast with white work-folder cards */
   border-top: 1px solid rgba(0, 0, 0, 0.05);
   padding: 40px;
@@ -1692,7 +1736,7 @@ html.lenis body {
   font-size: 32px;
   font-weight: 600;
   letter-spacing: -0.02em;
-  color: #08080a;
+  color: #2C2C2C;
   /* Premium editorial dark focus */
   margin-bottom: 12px;
   text-transform: uppercase;
@@ -1726,7 +1770,7 @@ html.lenis body {
   /* Increased size to be greater than folder-headline */
   font-weight: 700;
   letter-spacing: -0.05em;
-  color: #08080a;
+  color: #2C2C2C;
   text-transform: uppercase;
   margin-bottom: 80px;
   /* Increased bottom margin */
@@ -1738,8 +1782,8 @@ html.lenis body {
   position: sticky;
   top: 120px;
   height: calc(100vh - 140px);
-  background-color: #ffffff;
-  box-shadow: 0 -4px 20px rgba(8, 8, 10, 0.02), 0 10px 30px rgba(8, 8, 10, 0.03);
+  background-color: #F3F4F4;
+  box-shadow: 0 -4px 20px rgba(44, 44, 44, 0.02), 0 10px 30px rgba(44, 44, 44, 0.03);
   margin-bottom: 0;
   box-sizing: border-box;
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
@@ -1786,7 +1830,7 @@ html.lenis body {
   height: 42px;
   width: 220px;
   /* Fixed width for perfect side-by-side compilation */
-  background-color: #ffffff;
+  background-color: #F3F4F4;
   /* constant white background to let shadow distinguish it */
   border: none;
   border-radius: 0;
@@ -1800,14 +1844,14 @@ html.lenis body {
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.1em;
-  color: #08080a;
+  color: #2C2C2C;
   /* constant dark text color */
   white-space: nowrap;
   pointer-events: none;
   /* Make tab not clickable */
   z-index: 5;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 -4px 10px rgba(8, 8, 10, 0.02);
+  box-shadow: 0 -4px 10px rgba(44, 44, 44, 0.02);
 }
 
 .tab-num-badge {
@@ -1838,7 +1882,7 @@ html.lenis body {
 
 /* Active folder and tab styling */
 .work-folder.active {
-  box-shadow: 0 -6px 25px rgba(8, 8, 10, 0.04), 0 15px 40px rgba(8, 8, 10, 0.05);
+  box-shadow: 0 -6px 25px rgba(44, 44, 44, 0.04), 0 15px 40px rgba(44, 44, 44, 0.05);
   /* subtle active shadow */
 }
 
@@ -1884,7 +1928,7 @@ html.lenis body {
   font-family: var(--font-display);
   font-size: clamp(32px, 4vw, 48px);
   font-weight: 600;
-  color: #08080a;
+  color: #2C2C2C;
   margin-bottom: 16px;
   text-transform: uppercase;
 }
@@ -1910,16 +1954,16 @@ html.lenis body {
   font-family: var(--font-display);
   font-size: 14px;
   font-weight: 600;
-  color: #08080a;
+  color: #2C2C2C;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   padding: 16px 0;
-  border-top: 1px solid #08080a;
+  border-top: 1px solid #2C2C2C;
   /* Dark border matching the font color */
 }
 
 .list-row:last-child {
-  border-bottom: 1px solid #08080a;
+  border-bottom: 1px solid #2C2C2C;
 }
 
 /* --- STYLISED WIREFRAME BLUEPRINTS INSIDE FOLDERS --- */
@@ -1943,10 +1987,10 @@ html.lenis body {
 
 .showcase-placeholder {
   flex: 1;
-  border: 1px dashed rgba(8, 8, 10, 0.25);
+  border: 1px dashed rgba(44, 44, 44, 0.25);
   border-radius: 0;
   /* Removed rounded corners */
-  background-color: rgba(255, 255, 255, 0.55);
+  background-color: rgba(243, 244, 244, 0.55);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1957,8 +2001,8 @@ html.lenis body {
 }
 
 .showcase-placeholder:hover {
-  background-color: rgba(255, 255, 255, 0.95);
-  border-color: rgba(8, 8, 10, 0.45);
+  background-color: rgba(243, 244, 244, 0.95);
+  border-color: rgba(44, 44, 44, 0.45);
 }
 
 .showcase-img {
@@ -1983,7 +2027,7 @@ html.lenis body {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(8, 8, 10, 0.90);
+  background-color: rgba(44, 44, 44, 0.90);
   z-index: 99999;
   display: flex;
   justify-content: center;
@@ -2009,7 +2053,7 @@ html.lenis body {
   object-fit: contain;
   border-radius: 8px;
   box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(243, 244, 244, 0.1);
   transform: scale(0.92);
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -2023,20 +2067,20 @@ html.lenis body {
   top: 16px;
   left: 16px;
   font-family: Consolas, Monaco, "Fira Code", monospace;
-  font-size: 9px;
-  color: #8e8e93;
+  font-size: 11px;
+  color: #2C2C2C;
   z-index: 5;
   letter-spacing: 0.05em;
-  background-color: rgba(245, 245, 247, 0.95);
+  background-color: #F3F4F4;
   padding: 6px 12px;
   border-radius: 3px;
-  border: 1px solid rgba(8, 8, 10, 0.05);
+  border: 1px solid rgba(44, 44, 44, 0.05);
   transition: all 0.3s ease;
 }
 
 .showcase-placeholder:hover .placeholder-tag {
-  color: #08080a;
-  border-color: rgba(8, 8, 10, 0.2);
+  color: #2C2C2C;
+  border-color: rgba(44, 44, 44, 0.2);
   transform: scale(1.02);
 }
 
@@ -2075,16 +2119,16 @@ html.lenis body {
     width: 100% !important;
     /* full width tabs stacked vertically */
     height: 40px;
-    background-color: #FFFFFF !important;
+    background-color: #F3F4F4 !important;
     border: none;
     border-radius: 0;
     box-sizing: border-box;
-    color: #08080a !important;
+    color: #2C2C2C !important;
     /* always visible text */
   }
 
   .work-folder.active .folder-tab {
-    background-color: #ffffff !important;
+    background-color: #F3F4F4 !important;
     margin-bottom: 0;
   }
 
@@ -2117,7 +2161,7 @@ html.lenis body {
   position: relative;
   height: 100vh;
   min-height: 100vh;
-  background-color: #08080a;
+  background-color: #2C2C2C;
   width: 100%;
   overflow: hidden;
 }
@@ -2126,7 +2170,7 @@ html.lenis body {
   height: 100px;
   /* Editorial spacing gap */
   width: 100%;
-  background-color: #fafafa;
+  background-color: #F3F4F4;
   /* Blends with works section background */
 }
 
@@ -2148,7 +2192,7 @@ html.lenis body {
   /* Identical to SELECTED WORKS */
   font-weight: 700;
   letter-spacing: -0.05em;
-  color: #08080a;
+  color: #2C2C2C;
   text-transform: uppercase;
   position: absolute;
   top: 80px;
@@ -2189,7 +2233,7 @@ html.lenis body {
   width: 100%;
   height: 100%;
   margin: auto;
-  background-color: #fafafa;
+  background-color: #F3F4F4;
   border-radius: 0;
   box-shadow: none;
   transform-style: preserve-3d;
@@ -2204,9 +2248,9 @@ html.lenis body {
   width: 320px;
   height: 440px;
   margin: auto;
-  background-color: #fafafa;
+  background-color: #F3F4F4;
   border-radius: 20px;
-  box-shadow: 0 20px 50px rgba(8, 8, 10, 0.15);
+  box-shadow: 0 20px 50px rgba(44, 44, 44, 0.15);
   transform-style: preserve-3d;
   transform-origin: center center;
   backface-visibility: visible;
@@ -2227,9 +2271,9 @@ html.lenis body {
   justify-content: space-between;
   padding: 24px;
   box-sizing: border-box;
-  background: #ffffff;
+  background: #F3F4F4;
   /* clean white card design for background match */
-  border: 1px solid rgba(8, 8, 10, 0.08);
+  border: 1px solid rgba(44, 44, 44, 0.08);
 }
 
 .cover-crosshair {
@@ -2245,7 +2289,7 @@ html.lenis body {
 .cover-crosshair::after {
   content: "";
   position: absolute;
-  background-color: rgba(8, 8, 10, 0.04);
+  background-color: rgba(44, 44, 44, 0.04);
   /* dark crosshair for white card */
 }
 
@@ -2268,7 +2312,7 @@ html.lenis body {
   justify-content: space-between;
   font-family: Consolas, Monaco, "Fira Code", monospace;
   font-size: 8px;
-  color: rgba(8, 8, 10, 0.5);
+  color: rgba(44, 44, 44, 0.5);
   /* dark metal text color */
   letter-spacing: 0.05em;
 }
@@ -2284,10 +2328,10 @@ html.lenis body {
   font-family: var(--font-display, 'Outfit');
   font-size: 90px;
   font-weight: 800;
-  color: rgba(8, 8, 10, 0.03);
+  color: rgba(44, 44, 44, 0.03);
   /* subtle dark monogram */
   letter-spacing: -0.05em;
-  border: 1px solid rgba(8, 8, 10, 0.02);
+  border: 1px solid rgba(44, 44, 44, 0.02);
   padding: 0 20px;
   border-radius: 12px;
   user-select: none;
@@ -2330,8 +2374,8 @@ html.lenis body {
 .card-inner {
   width: 100%;
   height: 100%;
-  background: #08080a;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #2C2C2C;
+  border: 1px solid rgba(243, 244, 244, 0.1);
   border-radius: 20px;
   /* matched to cover card border radius */
   overflow: hidden;
@@ -2362,11 +2406,11 @@ html.lenis body {
   left: 12px;
   font-family: Consolas, Monaco, monospace;
   font-size: 9px;
-  color: rgba(255, 255, 255, 0.6);
-  background-color: rgba(8, 8, 10, 0.75);
+  color: rgba(243, 244, 244, 0.6);
+  background-color: rgba(44, 44, 44, 0.75);
   padding: 4px 8px;
   border-radius: 4px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(243, 244, 244, 0.08);
   z-index: 5;
 }
 
@@ -2401,14 +2445,14 @@ html.lenis body {
   font-weight: 800;
   line-height: 0.9;
   letter-spacing: -0.05em;
-  color: #08080a;
+  color: #2C2C2C;
 }
 
 .eg-subtitle {
   font-family: Consolas, Monaco, "Fira Code", monospace;
   font-size: 9px;
   letter-spacing: 0.1em;
-  color: rgba(8, 8, 10, 0.6);
+  color: rgba(44, 44, 44, 0.6);
   margin-top: 8px;
   text-transform: uppercase;
   white-space: nowrap;
@@ -2424,7 +2468,7 @@ html.lenis body {
   width: 100%;
   height: 100%;
   background-color: transparent;
-  color: #08080a;
+  color: #2C2C2C;
   padding: 80px 40px;
   display: flex;
   align-items: center;
@@ -2458,7 +2502,7 @@ html.lenis body {
   font-weight: 700;
   line-height: 1.1;
   letter-spacing: -0.02em;
-  color: #08080a;
+  color: #2C2C2C;
   margin: 0;
   text-transform: uppercase;
 }
@@ -2473,7 +2517,7 @@ html.lenis body {
   font-family: var(--font-body, 'Space Grotesk');
   font-size: 24px;
   line-height: 1.5;
-  color: #08080a;
+  color: #2C2C2C;
   margin: 0;
   font-weight: 400;
 }
@@ -2497,10 +2541,10 @@ html.lenis body {
 
 .skills-label {
   font-family: Consolas, Monaco, monospace;
-  font-size: 10px;
+  font-size: 13px;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: rgba(8, 8, 10, 0.4);
+  color: rgba(44, 44, 44, 0.85);
   margin: 0;
   white-space: nowrap;
 }
@@ -2522,15 +2566,15 @@ html.lenis body {
 }
 
 .skill-pill.filled {
-  background-color: #08080a;
-  color: #fafafa;
-  border: 1px solid #08080a;
+  background-color: #2C2C2C;
+  color: #F3F4F4;
+  border: 1px solid #2C2C2C;
 }
 
 .skill-pill.outlined {
   background-color: transparent;
-  color: #08080a;
-  border: 1px solid rgba(8, 8, 10, 0.15);
+  color: #2C2C2C;
+  border: 1px solid rgba(44, 44, 44, 0.15);
 }
 
 .toolkit-pill {
@@ -2570,7 +2614,7 @@ html.lenis body {
   font-family: 'Outfit', sans-serif;
   font-size: 11px;
   font-weight: 600;
-  color: #08080a;
+  color: #2C2C2C;
   letter-spacing: 0.12em;
   text-decoration: none;
   text-transform: uppercase;
@@ -2627,7 +2671,7 @@ html.lenis body {
   box-sizing: border-box;
   overflow: hidden;
   position: relative;
-  background-color: #08080a;
+  background-color: #2C2C2C;
   border-top: 1px solid var(--border-color);
 }
 
@@ -2700,7 +2744,7 @@ html.lenis body {
   font-family: var(--font-display, 'Outfit');
   font-size: calc(12.55vw - 10px);
   font-weight: 900;
-  color: #ffffff;
+  color: #F3F4F4;
   letter-spacing: -0.02em;
   margin: 0;
   padding: 0;

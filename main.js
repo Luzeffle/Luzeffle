@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const clockElement = document.getElementById("local-clock");
 
     let asciiEngine = null;
-    let cursorX = 0, cursorY = 0;
+    let cursorX = -1000, cursorY = -1000;
 
     // Preload and monitor collage images to ensure smooth fade-in transitions without pops
     const collageImgs = document.querySelectorAll("#collage-container img");
@@ -53,18 +53,104 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // --- 1. Initialize Monochromatic Dot Cursor ---
+    // --- 1. Initialize Custom Monospace ASCII Cursor Follower (Snake Trail) ---
+    const trailLength = 8;
+    const historyX = Array(trailLength).fill(-1000);
+    const historyY = Array(trailLength).fill(-1000);
+    let lastMouseMoveTime = Date.now();
+    let prevCursorX = -1000, prevCursorY = -1000;
+    let mouseSpeed = 0;
+    
+    // Inject the snake trail segments dynamically into the follower container
+    if (mouseFollower) {
+        mouseFollower.innerHTML = ""; // Clear legacy elements
+        const asciiChars = ["█", "█", "▓", "▓", "▒", "░", "·", "."];
+        asciiChars.forEach((char) => {
+            const span = document.createElement("span");
+            span.className = "trail-segment";
+            span.textContent = char;
+            mouseFollower.appendChild(span);
+        });
+    }
+
     window.addEventListener("mousemove", (e) => {
         cursorX = e.clientX;
         cursorY = e.clientY;
-
-        // Position dot cursor directly (no LERP lag, hardware accelerated)
-        mouseFollower.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0)`;
-
-        // Update coordinates for CSS background glow
-        document.body.style.setProperty("--mouse-x", `${cursorX}px`);
-        document.body.style.setProperty("--mouse-y", `${cursorY}px`);
+        lastMouseMoveTime = Date.now();
     });
+
+    function updateFollower() {
+        if (mouseFollower) {
+            // Calculate cursor speed (distance moved since last frame)
+            let distance = 0;
+            if (prevCursorX !== -1000 && prevCursorY !== -1000 && cursorX !== -1000 && cursorY !== -1000) {
+                const dx = cursorX - prevCursorX;
+                const dy = cursorY - prevCursorY;
+                distance = Math.sqrt(dx * dx + dy * dy);
+            }
+            // Smooth the speed metric with LERP damping
+            mouseSpeed += (distance - mouseSpeed) * 0.15;
+            
+            // Save coordinates for the next frame calculation
+            prevCursorX = cursorX;
+            prevCursorY = cursorY;
+
+            // Determine if cursor is hovering over the Hero section (#home)
+            let isOverHero = false;
+            const homeSection = document.getElementById("home");
+            if (homeSection) {
+                const rect = homeSection.getBoundingClientRect();
+                isOverHero = (
+                    cursorX >= rect.left &&
+                    cursorX <= rect.right &&
+                    cursorY >= rect.top &&
+                    cursorY <= rect.bottom
+                );
+            }
+            
+            // Determine if mouse is idle (inactivity longer than 400ms)
+            const isIdle = (Date.now() - lastMouseMoveTime) > 400;
+            mouseFollower.style.opacity = (isOverHero && !isIdle) ? "1" : "0";
+            
+            // Push current position to the head of the trail
+            historyX[0] = cursorX;
+            historyY[0] = cursorY;
+            
+            // Map speed to LERP factor (faster movement -> smaller factor -> longer trail lag)
+            const speedRatio = Math.min(1.0, mouseSpeed / 70);
+            const currentLerp = 0.22 - (speedRatio * 0.16); // ranges from 0.22 (slow) to 0.06 (fast)
+            
+            // Cascade trailing values down the history array with dynamic interpolation
+            for (let i = 1; i < trailLength; i++) {
+                historyX[i] += (historyX[i-1] - historyX[i]) * currentLerp;
+                historyY[i] += (historyY[i-1] - historyY[i]) * currentLerp;
+            }
+            
+            // Render segment positions with pixel-by-pixel retro grid snapping
+            const stepX = 8;
+            const stepY = 12;
+            const segments = mouseFollower.querySelectorAll(".trail-segment");
+            segments.forEach((seg, i) => {
+                const snappedX = Math.round((historyX[i] - 4) / stepX) * stepX;
+                const snappedY = Math.round((historyY[i] - 6) / stepY) * stepY;
+                seg.style.transform = `translate3d(${snappedX}px, ${snappedY}px, 0)`;
+            });
+        }
+        requestAnimationFrame(updateFollower);
+    }
+    requestAnimationFrame(updateFollower);
+
+    // --- Navbar Spotlight Border Effect ---
+    const navbar = document.querySelector(".hero-navbar");
+    if (navbar) {
+        navbar.addEventListener("mousemove", (e) => {
+            const rect = navbar.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            navbar.style.setProperty("--nav-x", `${x}px`);
+            navbar.style.setProperty("--nav-y", `${y}px`);
+        });
+    }
 
     // Attach hover-grow behaviors to interactive elements
     function attachCursorHoverHandlers() {
@@ -443,9 +529,9 @@ document.addEventListener("DOMContentLoaded", () => {
             scrollTrigger: {
                 trigger: ".poster-timeline-section",
                 start: "top top",
-                end: "+=150%",
+                end: "+=3000",
                 pin: true,
-                scrub: 1,
+                scrub: 2.5,
                 onUpdate: (self) => {
                     // Enable pointer events on posters when fanned out (progress between 35% and 55%)
                     if (self.progress >= 0.35 && self.progress <= 0.55) {
@@ -685,7 +771,7 @@ document.addEventListener("DOMContentLoaded", () => {
         tl.to(".about-section", {
             opacity: 1,
             pointerEvents: "auto",
-            duration: 0.02,
+            duration: 0.04,
             ease: "power1.inOut"
         }, 0.85);
 
@@ -693,30 +779,30 @@ document.addEventListener("DOMContentLoaded", () => {
         tl.to(".about-left h2", {
             y: 0,
             opacity: 1,
-            duration: 0.06,
+            duration: 0.12,
             ease: "power2.out"
         }, 0.87);
 
         tl.to(".left-contact-box", {
             y: 0,
             opacity: 1,
-            duration: 0.06,
+            duration: 0.12,
             ease: "power2.out"
         }, 0.89);
 
         tl.to(".about-lead-text", {
             y: 0,
             opacity: 1,
-            duration: 0.06,
+            duration: 0.12,
             ease: "power2.out"
         }, 0.91);
 
         tl.to(".soft-skills-container .skills-group", {
             y: 0,
             opacity: 1,
-            duration: 0.06,
+            duration: 0.12,
             ease: "power2.out",
-            stagger: 0.02
+            stagger: 0.04
         }, 0.93);
     }
 
