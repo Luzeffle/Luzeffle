@@ -93,8 +93,8 @@ html.lenis body {
 /* Subtle ASCII Cursor Follower */
 .mouse-follower {
   position: fixed;
-  top: -6px;
-  left: -4px;
+  top: 0;
+  left: 0;
   pointer-events: none;
   z-index: 9999;
   opacity: 0;
@@ -105,6 +105,11 @@ html.lenis body {
   position: fixed;
   top: 0;
   left: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   pointer-events: none;
   font-family: Consolas, Monaco, "Fira Code", monospace;
   color: var(--accent-color);
@@ -375,7 +380,7 @@ html.lenis body {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  padding: 75px 0 60px 0;
+  padding: 115px 0 60px 0; /* Changed from 120px to 115px to match sticky top and eliminate scroll jump */
   box-sizing: border-box;
   z-index: 20;
 }
@@ -389,7 +394,7 @@ html.lenis body {
   pointer-events: none;
   margin-bottom: 2vh;
   position: sticky;
-  top: 75px;
+  top: 115px; /* Offset lower under the navbar */
   z-index: 5;
 }
 
@@ -410,13 +415,37 @@ html.lenis body {
   z-index: 5;
 }
 
-.monumental-title span {
+.monumental-title > span {
   font-family: var(--font-display);
   font-size: 11vw;
   font-weight: 600;
   line-height: 0.8;
   letter-spacing: -0.04em;
   white-space: nowrap;
+  pointer-events: auto; /* Enable mouse hover animations through pointer-events: none container */
+}
+
+.kinetic-letter {
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+  font-family: inherit;
+  font-weight: inherit;
+  cursor: default;
+  vertical-align: bottom;
+}
+
+.letter-inner {
+  display: inline-block;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
+
+.glitch-char {
+  display: inline-block;
+  font-family: inherit;
+  font-weight: inherit;
+  cursor: default;
 }
 
 .title-pair {
@@ -462,23 +491,22 @@ html.lenis body {
   text-align: center;
   width: 100%;
   max-width: 1100px;
-  margin: 8vh auto 0 auto;
-  /* Put more gap from hero-title */
+  margin: 11vh auto 0 auto; /* Added extra space underneath hero title */
   padding: 0 40px;
   box-sizing: border-box;
   z-index: 10;
   position: sticky;
-  top: 46vh;
+  top: 50vh; /* Pushed down slightly for balanced layout gap */
 }
 
 .hero-section.unpinned .hero-title-container {
   position: absolute;
-  top: calc(500px + 75px);
+  top: calc(500px + 115px); /* Synchronized with new top offset */
 }
 
 .hero-section.unpinned .center-stack-wrapper {
   position: absolute;
-  top: calc(500px + 46vh);
+  top: calc(500px + 50vh); /* Synchronized with new top offset */
   left: 0;
   right: 0;
   margin-top: 0;
@@ -726,13 +754,13 @@ html.lenis body {
   overflow: hidden;
 }
 
-.hero-section.hero-entrance .monumental-title span {
+.hero-section.hero-entrance .monumental-title > span {
   display: inline-block;
   transform: translateY(110%);
   opacity: 0;
 }
 
-.hero-section.hero-entrance.title-reveal .monumental-title span {
+.hero-section.hero-entrance.title-reveal .monumental-title > span {
   transform: translateY(0);
   opacity: 1;
   transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1),
@@ -2697,7 +2725,7 @@ html.lenis body {
   font-family: Consolas, Monaco, monospace;
   font-size: 9px;
   letter-spacing: 0.1em;
-  color: var(--text-dim);
+  color: rgba(243, 244, 244, 0.45);
   text-transform: uppercase;
 }
 
@@ -2705,21 +2733,21 @@ html.lenis body {
   font-family: var(--font-display, 'Outfit');
   font-size: 11px;
   font-weight: 500;
-  color: var(--text-secondary);
+  color: rgba(243, 244, 244, 0.8);
   text-decoration: none;
   letter-spacing: 0.05em;
   transition: color 0.3s ease;
 }
 
 .footer-link:hover {
-  color: var(--accent-color);
+  color: #F3F4F4;
 }
 
 .footer-data-text {
   font-family: var(--font-display, 'Outfit');
   font-size: 11px;
   font-weight: 500;
-  color: var(--text-secondary);
+  color: rgba(243, 244, 244, 0.8);
   letter-spacing: 0.05em;
 }
 

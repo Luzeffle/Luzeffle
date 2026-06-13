@@ -126,13 +126,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 historyY[i] += (historyY[i-1] - historyY[i]) * currentLerp;
             }
             
-            // Render segment positions with pixel-by-pixel retro grid snapping
+            // Render segment positions with pixel-by-pixel retro grid snapping centered on the coordinate
             const stepX = 8;
             const stepY = 12;
             const segments = mouseFollower.querySelectorAll(".trail-segment");
             segments.forEach((seg, i) => {
-                const snappedX = Math.round((historyX[i] - 4) / stepX) * stepX;
-                const snappedY = Math.round((historyY[i] - 6) / stepY) * stepY;
+                // Since the segment has width: 20px and height: 20px (centered flexbox),
+                // we subtract 7px (slightly less than 10px) to offset the snake slightly lower right.
+                const snappedX = Math.round((historyX[i] - 7) / stepX) * stepX;
+                const snappedY = Math.round((historyY[i] - 7) / stepY) * stepY;
                 seg.style.transform = `translate3d(${snappedX}px, ${snappedY}px, 0)`;
             });
         }
@@ -250,10 +252,23 @@ document.addEventListener("DOMContentLoaded", () => {
         requestAnimationFrame(raf);
 
         // Bind in-page nav links to scroll smoothly using Lenis
-        document.querySelectorAll('.nav-links a[href^="#"]').forEach(anchor => {
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 const targetId = this.getAttribute('href');
                 if (targetId === '#home') {
+                    return;
+                }
+                if (targetId === '#about') {
+                    const showcase = document.querySelector(".poster-timeline-section");
+                    if (showcase) {
+                        e.preventDefault();
+                        const trigger = ScrollTrigger.getAll().find(st => st.vars.trigger === ".poster-timeline-section");
+                        if (trigger) {
+                            lenis.scrollTo(trigger.end);
+                        } else {
+                            lenis.scrollTo(showcase.offsetTop + 3000);
+                        }
+                    }
                     return;
                 }
                 const targetEl = document.querySelector(targetId);
@@ -805,6 +820,39 @@ document.addEventListener("DOMContentLoaded", () => {
             stagger: 0.04
         }, 0.93);
     }
+
+    // --- 5. Per-Letter Left-Swipe Title Animation ---
+    const letters = document.querySelectorAll(".kinetic-letter");
+    letters.forEach(letter => {
+        // Wrap each character in an inner span to enable independent clipping transforms
+        const char = letter.textContent;
+        letter.innerHTML = `<span class="letter-inner">${char}</span>`;
+        const inner = letter.querySelector(".letter-inner");
+
+        let letterTl = null;
+        letter.addEventListener("mouseenter", () => {
+            if (letterTl && letterTl.isActive()) return; // Ignore retriggers while this letter is animating
+
+            // Reset state
+            gsap.killTweensOf(inner);
+            gsap.set(inner, { x: "0%" });
+
+            letterTl = gsap.timeline();
+            letterTl.to(inner, {
+                x: "-105%",
+                duration: 0.35,
+                ease: "power2.in"
+            })
+            .set(inner, {
+                x: "105%"
+            })
+            .to(inner, {
+                x: "0%",
+                duration: 0.45,
+                ease: "power2.out"
+            });
+        });
+    });
 
     initHeroAscii();
 });
